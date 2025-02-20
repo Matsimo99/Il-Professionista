@@ -44,6 +44,8 @@ body {
     list-style-type: none;
     display: flex; /* Cambia da block a flex per disporre gli elementi orizzontalmente */
     gap: 20px; /* Aggiungi spazio tra i collegamenti */
+    flex-wrap: wrap; /* Permette agli elementi di andare a capo su schermi piccoli */
+    justify-content: center; /* Allinea gli elementi al centro */
 }
 
 .navbar-links li {
@@ -62,11 +64,9 @@ body {
     color: #ffc107; /* Colore giallo quando si passa sopra il link */
 }
 
-
-
 /* Barra di ricerca orizzontale */
 .search-section {
-    margin-top: 150px;
+    margin-top: 100px; /* Ridotto il margine superiore per risparmiare spazio su schermi piccoli */
     padding: 20px;
     background-color: rgba(244, 247, 249, 0.8);
     text-align: center;
@@ -81,7 +81,7 @@ body {
 }
 
 .input-group input {
-    padding: 10px;
+    padding: 12px;
     font-size: 16px;
     border: 1px solid #ddd;
     border-radius: 4px;
@@ -92,7 +92,7 @@ body {
 .btn-search {
     background-color: #007bff;
     color: white;
-    padding: 22px 25px;
+    padding: 14px 20px; /* Aumentato il padding per migliorare l'aspetto sui dispositivi piccoli */
     border: none;
     border-radius: 4px;
     cursor: pointer;
@@ -103,11 +103,30 @@ body {
     background-color: #0056b3;
 }
 
-/* Media query per schermi più piccoli */
+/* Media query per schermi più piccoli (tablet e smartphone) */
 @media (max-width: 768px) {
-    .search-form {
-        flex-direction: column;  /* Riorganizza gli elementi in una colonna su schermi piccoli */
+    /* Ottimizzazione per il menu di navigazione */
+    .navbar-links {
+        flex-direction: column;  /* Riorganizza gli elementi in una colonna */
         gap: 15px;               /* Aggiungi spazio maggiore tra gli elementi */
+        justify-content: flex-start; /* Allinea gli elementi al lato */
+        padding: 0;  /* Rimuove eventuali padding extra */
+    }
+
+    .navbar-links a {
+        font-size: 18px; /* Aumenta la dimensione del font per una migliore leggibilità */
+        padding: 12px;   /* Aumenta il padding per un tocco più facile sui dispositivi mobili */
+    }
+
+    /* Ottimizzazione per la barra di ricerca */
+    .search-section {
+        margin-top: 80px; /* Ridotto il margine superiore */
+    }
+
+    .search-form {
+        flex-direction: column;  /* Riorganizza gli elementi in una colonna */
+        gap: 15px;               /* Aggiungi spazio maggiore tra gli elementi */
+        padding: 0 15px;         /* Aggiungi un po' di padding per evitare che tocchino i bordi */
     }
 
     .input-group input {
@@ -117,6 +136,37 @@ body {
 
     .btn-search {
         width: 100%;  /* Imposta il bottone al 100% della larghezza */
+        padding: 16px 0; /* Modificato il padding per avere un bottone più largo e facilmente cliccabile */
+    }
+}
+
+/* Media query per dispositivi molto piccoli (come smartphone in verticale) */
+@media (max-width: 480px) {
+    /* Ulteriore ottimizzazione per smartphone piccoli */
+    .navbar-links {
+        gap: 10px; /* Ridotto il gap tra gli elementi per adattarli meglio su schermi molto piccoli */
+    }
+
+    .navbar-links a {
+        font-size: 16px; /* Imposta un font più piccolo per adattarsi meglio agli schermi piccoli */
+        padding: 10px;   /* Riduce il padding per adattarsi meglio */
+    }
+
+    .search-section {
+        margin-top: 60px; /* Ancora più ridotto il margine superiore su schermi molto piccoli */
+    }
+
+    .search-form {
+        gap: 10px;  /* Ridotto il gap tra gli elementi */
+    }
+
+    .input-group input {
+        width: 100%;  /* L'input occupa tutta la larghezza disponibile */
+    }
+
+    .btn-search {
+        width: 100%;  /* Bottone a larghezza completa */
+        padding: 14px 0;  /* Aggiungi un padding confortevole per la facilità d'uso */
     }
 }
 /* Sezione dei risultati della ricerca */
