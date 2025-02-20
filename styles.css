@@ -27,7 +27,7 @@ body {
     position: fixed;
     top: 0;
     left: 0;
-    right: 5;
+    right: 0;
     z-index: 1000;
     height: 100px;
 }
@@ -36,16 +36,15 @@ body {
     max-width: 125px;
     height: auto;
     margin-top: 2.0mm;
-
 }
 
 /* Menu di navigazione orizzontale */
 .navbar-links {
     list-style-type: none;
     display: flex; /* Cambia da block a flex per disporre gli elementi orizzontalmente */
-    gap: 20px; /* Aggiungi spazio tra i collegamenti */
+    gap: 20px;
     flex-wrap: wrap; /* Permette agli elementi di andare a capo su schermi piccoli */
-    justify-content: center; /* Allinea gli elementi al centro */
+    justify-content: center;
 }
 
 .navbar-links li {
@@ -61,12 +60,12 @@ body {
 }
 
 .navbar-links a:hover {
-    color: #ffc107; /* Colore giallo quando si passa sopra il link */
+    color: #ffc107;
 }
 
 /* Barra di ricerca orizzontale */
 .search-section {
-    margin-top: 100px; /* Ridotto il margine superiore per risparmiare spazio su schermi piccoli */
+    margin-top: 120px; /* Aggiustato margine per migliorare visibilità su dispositivi piccoli */
     padding: 20px;
     background-color: rgba(244, 247, 249, 0.8);
     text-align: center;
@@ -77,7 +76,7 @@ body {
     justify-content: center;
     gap: 10px;
     align-items: center;
-    flex-wrap: wrap; /* Permette la rottura su più righe su schermi piccoli */
+    flex-wrap: wrap; 
 }
 
 .input-group input {
@@ -86,129 +85,124 @@ body {
     border: 1px solid #ddd;
     border-radius: 4px;
     width: 250px;
-    max-width: 100%;  /* Aggiunto per fare in modo che l'input non superi la larghezza del contenitore */
+    max-width: 100%;
 }
 
 .btn-search {
     background-color: #007bff;
     color: white;
-    padding: 14px 20px; /* Aumentato il padding per migliorare l'aspetto sui dispositivi piccoli */
+    padding: 14px 20px;
     border: none;
     border-radius: 4px;
     cursor: pointer;
-    width: auto; /* Mantiene la larghezza del bottone in base al contenuto */
 }
 
 .btn-search:hover {
     background-color: #0056b3;
 }
 
-/* Media query per schermi più piccoli (tablet e smartphone) */
+/* Media query per schermi più piccoli */
+@media (max-width: 1024px) {
+    .navbar {
+        padding: 15px 30px;
+    }
+
+    .navbar-links {
+        gap: 15px;
+    }
+
+    .search-section {
+        margin-top: 100px;
+    }
+
+    .input-group input {
+        font-size: 14px;
+    }
+
+    .btn-search {
+        padding: 12px 16px;
+    }
+}
+
+/* Media query per tablet e smartphone */
 @media (max-width: 768px) {
-    /* Ottimizzazione per il menu di navigazione */
     .navbar-links {
-        flex-direction: column;  /* Riorganizza gli elementi in una colonna */
-        gap: 15px;               /* Aggiungi spazio maggiore tra gli elementi */
-        justify-content: flex-start; /* Allinea gli elementi al lato */
-        padding: 0;  /* Rimuove eventuali padding extra */
+        flex-direction: column;
+        gap: 15px;
+        justify-content: flex-start;
     }
 
     .navbar-links a {
-        font-size: 18px; /* Aumenta la dimensione del font per una migliore leggibilità */
-        padding: 12px;   /* Aumenta il padding per un tocco più facile sui dispositivi mobili */
+        font-size: 18px;
+        padding: 12px;
     }
 
-    /* Ottimizzazione per la barra di ricerca */
     .search-section {
-        margin-top: 80px; /* Ridotto il margine superiore */
+        margin-top: 80px;
     }
 
     .search-form {
-        flex-direction: column;  /* Riorganizza gli elementi in una colonna */
-        gap: 15px;               /* Aggiungi spazio maggiore tra gli elementi */
-        padding: 0 15px;         /* Aggiungi un po' di padding per evitare che tocchino i bordi */
+        flex-direction: column;
+        gap: 15px;
+        padding: 0 15px;
     }
 
     .input-group input {
-        width: 100%;  /* Imposta la larghezza dell'input al 100% */
-        max-width: none;  /* Disabilita il limite di larghezza su schermi più piccoli */
+        width: 100%;
+        max-width: none;
     }
 
     .btn-search {
-        width: 100%;  /* Imposta il bottone al 100% della larghezza */
-        padding: 16px 0; /* Modificato il padding per avere un bottone più largo e facilmente cliccabile */
+        width: 100%;
+        padding: 16px 0;
     }
 }
 
-/* Media query per dispositivi molto piccoli (come smartphone in verticale) */
+/* Media query per dispositivi molto piccoli (smartphone in verticale) */
 @media (max-width: 480px) {
-    /* Ulteriore ottimizzazione per smartphone piccoli */
     .navbar-links {
-        gap: 10px; /* Ridotto il gap tra gli elementi per adattarli meglio su schermi molto piccoli */
+        gap: 10px;
     }
 
     .navbar-links a {
-        font-size: 16px; /* Imposta un font più piccolo per adattarsi meglio agli schermi piccoli */
-        padding: 10px;   /* Riduce il padding per adattarsi meglio */
+        font-size: 16px;
+        padding: 10px;
     }
 
     .search-section {
-        margin-top: 60px; /* Ancora più ridotto il margine superiore su schermi molto piccoli */
+        margin-top: 60px;
     }
 
     .search-form {
-        gap: 10px;  /* Ridotto il gap tra gli elementi */
+        gap: 10px;
     }
 
     .input-group input {
-        width: 100%;  /* L'input occupa tutta la larghezza disponibile */
+        width: 100%;
     }
 
     .btn-search {
-        width: 100%;  /* Bottone a larghezza completa */
-        padding: 14px 0;  /* Aggiungi un padding confortevole per la facilità d'uso */
+        width: 100%;
+        padding: 14px 0;
     }
 }
+
 /* Sezione dei risultati della ricerca */
 .search-container {
     display: flex;
-    flex-direction: row;  /* Imposta l'allineamento orizzontale */
-    justify-content: space-between;  /* Distanza tra gli elementi */
-    align-items: center;  /* Centra verticalmente gli elementi */
-    gap: 20px;  /* Distanza tra i vari elementi */
-}
-
-.search-container .section-title {
-    margin: 0; /* Rimuove eventuali margini per allineare meglio */
-    font-size: 24px; /* Puoi cambiare la dimensione del titolo */
-}
-
-.search-container .subheading {
-    margin: 0;
-    font-size: 16px; /* Puoi regolare la dimensione del testo */
-}
-
-.no-results {
-    text-align: center;               /* Centra il testo orizzontalmente */
-    font-size: 18px;                  /* Imposta una dimensione del font maggiore per visibilità */
-    color: #555;                      /* Colore del testo grigio scuro */
-    background-color: #f8d7da;        /* Colore di sfondo rosso chiaro per farlo risaltare */
-    padding: 20px;                    /* Spaziatura intorno al testo */
-    border: 1px solid #f5c6cb;        /* Bordo di colore rosso chiaro */
-    border-radius: 5px;               /* Angoli arrotondati */
-    margin-top: 20px;                 /* Distanza dalla sezione precedente */
-    max-width: 600px;                 /* Larghezza massima per mantenere il testo compatto */
-    margin-left: auto;
-    margin-right: auto;               /* Centra il messaggio */
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    gap: 20px;
 }
 
 /* Sezione commenti */
 .search-comment-box {
     background-color: #ffffff;
     border: 1px solid #ddd;
-    padding-top: 20px; /* Aggiunge un po' di spazio sopra il footer */
-    padding-bottom: 30px; /* Aggiunge spazio sotto il footer, se necessario */
-    margin: 40px 0; /* Distanza tra la barra di ricerca e il footer */
+    padding-top: 20px;
+    padding-bottom: 30px;
+    margin: 40px 0;
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
 }
 
@@ -223,19 +217,17 @@ body {
     display: flex;
     flex-wrap: wrap;
     gap: 20px;
-    justify-content: center;  /* Centra gli elementi nella pagina */
-    margin-top: 50px;  /* Distanza dalla barra di ricerca */
+    justify-content: center;
 }
 
-/* Sezione commenti professionisti */
 .professionista-commenti {
     background-color: #fff;
     padding: 15px;
     border-radius: 8px;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-    width: 30%; /* Imposta la larghezza per 3 colonne */
-    min-width: 250px;  /* Assicura che non diventino troppo piccole su schermi stretti */
-    text-align: center; /* Centra il testo */
+    width: 30%;
+    min-width: 250px;
+    text-align: center;
     margin-bottom: 20px;
 }
 
@@ -260,7 +252,7 @@ body {
     border-bottom: none;
 }
 
-/* Unifica le due definizioni di .search-comment-section */
+/* Commento box */
 .search-comment-section {
     margin-top: 0px;
     padding: 20px;
@@ -268,77 +260,49 @@ body {
     border: 1px solid #ccc;
     border-radius: 5px;
     display: flex;
-    flex-direction: column;  /* Allinea gli elementi verticalmente */
+    flex-direction: column;
     gap: 10px;
-    width: 50%;  /* Imposta una larghezza fissa */
-    justify-content: flex-start; /* Allinea gli elementi a sinistra */
-    padding: 10px;  /* Aggiungi più padding per spazio interno */
+    width: 50%;
+    justify-content: flex-start;
 }
 
-
-/* Contenitore per il form del commento */
-.search-comment-container {
-    max-width: 300px; /* Imposta una larghezza massima */
-    margin: 0 auto;   /* Centra il form orizzontalmente */
-}
-
-/* Form del commento */
 .comment-form {
     display: flex;
-    flex-direction: column; /* Organizza gli elementi in verticale */
-    gap: 15px; /* Distanza tra gli elementi */
-}
-
-/* Gruppo di input (etichetta + campo di testo) */
-.input-group {
-    display: flex;
     flex-direction: column;
+    gap: 15px;
 }
-
-.input-group label {
-    font-weight: bold;
-    margin-bottom: 5px;
-}
-
-
-/* Focus sul textarea */
-.input-group textarea:focus {
-    border-color: #4CAF50;  /* Cambia il colore del bordo al focus */
-    outline: none;  /* Rimuovi l'outline per una transizione pulita */
-}
-
 
 /* Media Query per schermi piccoli */
 @media (max-width: 600px) {
     .input-group textarea {
-        height: 35px;  /* Riduci ulteriormente l'altezza del textarea sui dispositivi mobili */
-        font-size: 11px;  /* Font ancora più piccolo sui dispositivi mobili */
+        height: 35px;
+        font-size: 11px;
     }
 
     .btn-submit-comment {
-        font-size: 12px;  /* Riduci la dimensione del font sui dispositivi mobili */
-        padding: 6px 10px;  /* Riduci il padding sui dispositivi mobili */
+        font-size: 12px;
+        padding: 6px 10px;
     }
 
     .comment-section {
-        flex-direction: column;  /* Metti gli elementi in colonna su schermi piccoli */
-        align-items: stretch;    /* Allinea gli elementi alla larghezza del contenitore */
+        flex-direction: column;
+        align-items: stretch;
     }
 
     .comment-section textarea {
-        max-width: none;  /* Rimuovi il limite di larghezza per il campo di testo */
+        max-width: none;
     }
 
     .comment-section button {
-        width: 100%;  /* Fai in modo che il bottone occupi tutta la larghezza disponibile */
+        width: 100%;
     }
 }
 
-/* Stile per il messaggio di successo */
+/* Success message */
 .success-message {
-    background-color: #d4edda; /* Verde chiaro */
-    border: 1px solid #c3e6cb; /* Bordo verde */
-    color: #155724; /* Testo verde scuro */
+    background-color: #d4edda;
+    border: 1px solid #c3e6cb;
+    color: #155724;
     padding: 10px 15px;
     margin: 20px 0;
     border-radius: 5px;
@@ -346,18 +310,6 @@ body {
     text-align: center;
     transition: opacity 0.5s ease-in-out;
 }
-
-/* Effetto di transizione (quando il messaggio appare e scompare) */
-.success-message.fade-out {
-    opacity: 0;
-    visibility: hidden;
-}
-
-/* Aggiungi anche un'ombra se vuoi farlo risaltare di più */
-.success-message {
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-}
-
 
 /* Risultati della ricerca */
 .result-card {
@@ -368,59 +320,54 @@ body {
     padding: 20px;
     border: 1px solid #ccc;
     background-color: rgba(255, 255, 255, 0.9);
-    margin-top: 20px;  /* Aggiungi questo per staccare il primo risultato dalla barra di ricerca */
+    margin-top: 20px;
 }
 
-/* Contenitore per l'immagine */
 .img-container {
-    flex-shrink: 0;             /* Impedisce alla foto di ridursi */
+    flex-shrink: 0;
 }
 
 .img-professionista {
-    width: 80px;    /* Larghezza della foto */
-    height: 80px;   /* Altezza della foto */
-    border-radius: 50%; /* Rende la foto circolare */
-    object-fit: cover; /* Adatta l'immagine al cerchio */
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    object-fit: cover;
 }
 
-/* Dettagli del professionista */
 .details-container {
     display: flex;
-    flex-direction: column;    /* Allinea nome, cognome e città verticalmente */
-    gap: 5px;                  /* Spazio tra i dati */
+    flex-direction: column;
+    gap: 5px;
 }
-
-
 
 /* Sezione per il commento */
 .search-comment-section {
     display: flex;
-    flex-direction: column; /* Manteniamo l'organizzazione verticale */
+    flex-direction: column;
     gap: 10px;
     margin-top: 0px;
     margin-bottom: 0px;
-    width: 50%; /* Puoi modificarla in base alle tue necessità */
-    justify-content: flex-start; /* Allinea gli elementi a sinistra */
+    width: 50%;
+    justify-content: flex-start;
     padding: 10px;
     background-color: #fff;
     border-radius: 5px;
     border: 1px solid #ccc;
-    position: relative; /* Per poter posizionare il bottone fuori dal riquadro */
+    position: relative;
 }
 
 /* Form del commento */
 .comment-form {
-    display: flex;  /* Disporre gli elementi orizzontalmente */
+    display: flex;
     flex-direction: row;
     gap: 10px;
     align-items: center;
     width: 100%;
 }
 
-/* Campo di testo per il commento */
 .search-comment-section textarea {
-    width: 100%;  /* Occupa tutta la larghezza disponibile */
-    max-width: 200px;  /* Imposta una larghezza massima */
+    width: 100%;
+    max-width: 200px;
     height: 40px;
     padding: 10px;
     font-size: 14px;
@@ -428,7 +375,6 @@ body {
     border-radius: 5px;
 }
 
-/* Bottone per inviare il commento */
 .search-comment-section button {
     padding: 10px 15px;
     background-color: #4CAF50;
@@ -437,19 +383,15 @@ body {
     border-radius: 5px;
     cursor: pointer;
     min-width: 120px;
-    position: absolute;  /* Posiziona il bottone fuori dal riquadro */
-    right: 20px;  /* Fa sporgere il bottone a destra fuori dal contenitore */
-    top: 50%;  /* Posiziona il bottone al centro del campo di testo */
-    transform: translateY(-50%);  /* Allinea verticalmente il bottone al centro */
+    position: absolute;
+    right: 20px;
+    top: 50%;
+    transform: translateY(-50%);
 }
 
-/* Hover sul bottone */
 .search-comment-section button:hover {
     background-color: #45a049;
 }
-
-
-
 
 /* Sezione Trattamento dei Dati */
 .data-treatment-section {
@@ -457,95 +399,19 @@ body {
     padding: 40px 20px;
     background-color: rgba(255, 255, 255, 0.9);
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-    margin-top: 150px; /* Separazione dalla navbar */
-    margin-bottom: 50px; /* Aggiungi margine inferiore per separarla dal footer */
-}
-
-
-.data-treatment-section h1 {
-    font-size: 32px;
-    color: #333;
-    margin-bottom: 20px;
+    border-radius: 10px;
 }
 
 .data-treatment-section h2 {
-    font-size: 24px;
-    color: #007bff;
-    margin-bottom: 15px;
+    font-size: 28px;
+    margin-bottom: 20px;
+    color: #333;
 }
 
 .data-treatment-section p {
     font-size: 16px;
-    color: #555;
-    margin-bottom: 20px;
     line-height: 1.6;
-}
-
-.data-treatment-section a {
-    color: #007bff;
-    text-decoration: none;
-}
-
-.data-treatment-section a:hover {
-    text-decoration: underline;
-}
-
-.data-container {
-    max-width: 1000px;
-    margin: 0 auto;
-}
-
-/* Sezione Chi Siamo */
-.about-section {
-    text-align: center;
-    padding: 40px 20px;
-    background-color: rgba(255, 255, 255, 0.9);
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-    margin-top: 150px; /* Separazione dalla navbar */
-    margin-bottom: 50px; /* Aggiungi margine inferiore per separarla dal footer */
-}
-
-.about-section h1 {
-    font-size: 32px;
-    color: #333;
-    margin-bottom: 20px;
-}
-
-.about-section p {
-    font-size: 16px;
     color: #555;
-    margin-bottom: 20px;
-    line-height: 1.6;
-}
-
-.about-section a {
-    color: #007bff;
-    text-decoration: none;
-}
-
-.about-section a:hover {
-    text-decoration: underline;
-}
-
-.data-container {
-    max-width: 1000px;
-    margin: 0 auto;
-}
-
-
-/* Impostazione della pagina per il layout a schermo intero */
-html, body {
-    height: 100%;
-    margin: 0;
-    display: flex;
-    flex-direction: column;
-}
-
-/* Contenuto principale della pagina */
-.main-content {
-    flex: 1;
-    padding: 20px;
-    margin-bottom: 50px; /* Aggiungi margine inferiore per distanziare dal footer */
 }
 
 /* Footer container */
