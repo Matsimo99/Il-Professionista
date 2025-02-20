@@ -30,6 +30,7 @@ body {
     right: 0;
     z-index: 1000;
     height: 100px;
+    width: 100%;
 }
 
 .navbar .logo img {
@@ -38,13 +39,12 @@ body {
     margin-top: 2.0mm;
 }
 
-/* Menu di navigazione orizzontale */
 .navbar-links {
     list-style-type: none;
-    display: flex; /* Cambia da block a flex per disporre gli elementi orizzontalmente */
+    display: flex;
     gap: 20px;
-    flex-wrap: wrap; /* Permette agli elementi di andare a capo su schermi piccoli */
     justify-content: center;
+    margin: 0;
 }
 
 .navbar-links li {
@@ -65,7 +65,7 @@ body {
 
 /* Barra di ricerca orizzontale */
 .search-section {
-    margin-top: 120px; /* Aggiustato margine per migliorare visibilità su dispositivi piccoli */
+    margin-top: 120px; /* Spazio tra la navbar e la ricerca */
     padding: 20px;
     background-color: rgba(244, 247, 249, 0.8);
     text-align: center;
@@ -76,7 +76,7 @@ body {
     justify-content: center;
     gap: 10px;
     align-items: center;
-    flex-wrap: wrap; 
+    flex-wrap: wrap;
 }
 
 .input-group input {
@@ -99,6 +99,20 @@ body {
 
 .btn-search:hover {
     background-color: #0056b3;
+}
+
+/* Separazione tra la barra di navigazione e la barra di ricerca */
+.search-section {
+    margin-top: 150px; /* Maggiore distanza dalla navbar */
+}
+
+/* Footer */
+footer {
+    background-color: #333;
+    color: white;
+    text-align: center;
+    padding: 20px 0;
+    margin-top: 50px; /* Separazione dal contenuto principale */
 }
 
 /* Media query per schermi più piccoli */
