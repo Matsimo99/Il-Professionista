@@ -17,6 +17,8 @@ if (!$conn) {
 // Variabile per tenere traccia se è stato inviato un commento
 $commento_inviato = false;
 $commento_successo = '';
+$professione = isset($_GET['professione']) ? $_GET['professione'] : ''; // Imposta a '' se non è definito
+$citta = isset($_GET['citta']) ? $_GET['citta'] : ''; // Imposta a '' se non è definito
 
 // Gestire l'invio dei commenti
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['commento'], $_POST['professionista_id'])) {
