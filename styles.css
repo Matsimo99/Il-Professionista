@@ -554,6 +554,63 @@ footer {
     margin-top: 20px;
 }
 
+/* Ottimizzazione per smartphone */
+@media (max-width: 768px) {
+    .footer-container {
+        padding: 0 10px;
+    }
+
+    .footer-links, .footer-social {
+        justify-content: center;
+        margin-bottom: 15px;
+    }
+
+    .footer-links ul, .footer-social ul {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .footer-links li, .footer-social li {
+        margin: 5px 0;
+    }
+
+    .footer-links a, .footer-social a {
+        font-size: 16px;
+    }
+
+    .footer-bottom p {
+        font-size: 12px;
+    }
+}
+
+@media (max-width: 480px) {
+    .footer-container {
+        padding: 0 10px;
+    }
+
+    .footer-links, .footer-social {
+        justify-content: center;
+        margin-bottom: 15px;
+    }
+
+    .footer-links ul, .footer-social ul {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .footer-links li, .footer-social li {
+        margin: 5px 0;
+    }
+
+    .footer-links a, .footer-social a {
+        font-size: 16px;
+    }
+
+    .footer-bottom p {
+        font-size: 12px;
+    }
+}
+
 /* Rende il footer sempre ancorato al fondo */
 main {
     flex: 1;
