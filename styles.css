@@ -483,7 +483,6 @@ body {
 }
 
 
-
 /* Impostazione della pagina per il layout a schermo intero */
 html, body {
     height: 100%;
@@ -554,63 +553,6 @@ footer {
     margin-top: 20px;
 }
 
-/* Ottimizzazione per smartphone */
-@media (max-width: 768px) {
-    .footer-container {
-        padding: 0 10px;
-    }
-
-    .footer-links, .footer-social {
-        justify-content: center;
-        margin-bottom: 15px;
-    }
-
-    .footer-links ul, .footer-social ul {
-        flex-direction: column;
-        align-items: center;
-    }
-
-    .footer-links li, .footer-social li {
-        margin: 5px 0;
-    }
-
-    .footer-links a, .footer-social a {
-        font-size: 16px;
-    }
-
-    .footer-bottom p {
-        font-size: 12px;
-    }
-}
-
-@media (max-width: 480px) {
-    .footer-container {
-        padding: 0 10px;
-    }
-
-    .footer-links, .footer-social {
-        justify-content: center;
-        margin-bottom: 15px;
-    }
-
-    .footer-links ul, .footer-social ul {
-        flex-direction: column;
-        align-items: center;
-    }
-
-    .footer-links li, .footer-social li {
-        margin: 5px 0;
-    }
-
-    .footer-links a, .footer-social a {
-        font-size: 16px;
-    }
-
-    .footer-bottom p {
-        font-size: 12px;
-    }
-}
-
 /* Rende il footer sempre ancorato al fondo */
 main {
     flex: 1;
@@ -621,8 +563,36 @@ footer {
     margin-top: auto; /* Spinge il footer sempre a fondo pagina */
 }
 
-/* Media query per dispositivi mobili */
+/* Ottimizzazione per dispositivi mobili */
 @media (max-width: 768px) {
+    /* Adattamento footer */
+    .footer-container {
+        padding: 0 10px;
+    }
+
+    .footer-links, .footer-social {
+        justify-content: center;
+        margin-bottom: 15px;
+    }
+
+    .footer-links ul, .footer-social ul {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .footer-links li, .footer-social li {
+        margin: 5px 0;
+    }
+
+    .footer-links a, .footer-social a {
+        font-size: 16px;
+    }
+
+    .footer-bottom p {
+        font-size: 12px;
+    }
+
+    /* Adattamento layout contenuto */
     .risultati-contenitore {
         flex-direction: column;
         align-items: center;
@@ -640,5 +610,34 @@ footer {
 
     .search-bar button {
         width: 100%;
+    }
+}
+
+@media (max-width: 480px) {
+    /* Ottimizzazione footer per dispositivi molto piccoli */
+    .footer-container {
+        padding: 0 10px;
+    }
+
+    .footer-links, .footer-social {
+        justify-content: center;
+        margin-bottom: 15px;
+    }
+
+    .footer-links ul, .footer-social ul {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .footer-links li, .footer-social li {
+        margin: 5px 0;
+    }
+
+    .footer-links a, .footer-social a {
+        font-size: 16px;
+    }
+
+    .footer-bottom p {
+        font-size: 12px;
     }
 }
