@@ -1,23 +1,24 @@
 <?php
-// Parametri di connessione al database PostgreSQL di Render
-$host = 'dpg-curf2orv2p9s73ahh69g-a.oregon-postgres.render.com';
-$port = '5432';  // La porta di default di PostgreSQL
-$dbname = 'profslq';  // Il nome del database
-$user = 'profslq_user';  // Nome utente del database
-$password = 'MyafAY0wufx7p2gqyiqevR7EddKmxBMu';  // La password del database
-
 // Connessione al database
 $conn = pg_connect("host=$host port=$port dbname=$dbname user=$user password=$password");
-$professione = isset($_GET['professione']) ? $_GET['professione'] : ''; // Imposta a '' se non è definito
-$citta = isset($_GET['citta']) ? $_GET['citta'] : ''; // Imposta a '' se non è definito
 
 if (!$conn) {
     echo "Errore nella connessione al database.";
     exit;
 }
 
-// Ottieni i professionisti dalla tabella persone
+// Recupero dei parametri dalla query string (GET), con default a null
+$professione = isset($_GET['professione']) ? $_GET['professione'] : null;
+$citta = isset($_GET['citta']) ? $_GET['citta'] : null;
+
+// Codice per la ricerca, per esempio:
 $query = "SELECT * FROM persone"; // Recupera tutti i professionisti
+if ($professione) {
+    $query .= " WHERE professione LIKE '%" . pg_escape_string($conn, $professione) . "%'";
+}
+if ($citta) {
+    $query .= " AND citta LIKE '%" . pg_escape_string($conn, $citta) . "%'";
+}
 $result_professionisti = pg_query($conn, $query);
 
 if (!$result_professionisti) {
