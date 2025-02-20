@@ -20,11 +20,11 @@ $commento_successo = '';
 
 // Gestire l'invio dei commenti
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['commento'], $_POST['professionista_id'])) {
-    $commento = $_POST['commento'];
-    $professionista_id = $_POST['professionista_id'];
+    $commento = trim($_POST['commento']); // Rimuove gli spazi superflui
+    $professionista_id = (int) $_POST['professionista_id']; // Assicurati che sia un intero
 
     if (!empty($commento)) {
-        // Inserisci il commento nel database
+        // Inserisci il commento nel database in modo sicuro
         $insert_query = "INSERT INTO commenti (professionista_id, commento) VALUES ($1, $2)";
         $result_insert = pg_query_params($conn, $insert_query, [$professionista_id, $commento]);
 
@@ -34,47 +34,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['commento'], $_POST['p
         } else {
             echo "Errore nell'inserimento del commento: " . pg_last_error($conn);
         }
+    } else {
+        echo "Il commento non può essere vuoto.";
     }
 }
 
-// Variabili per la ricerca
-$professione = $_GET['professione'] ?? '';
-$citta = $_GET['citta'] ?? '';
-
-// Solo eseguire la ricerca se non è stato inviato un commento
-if (!$commento_inviato) {
-    // Controlla se almeno uno dei campi è stato compilato
-    if (empty($professione) && empty($citta)) {
-        $errors[] = "Per favore, compila almeno uno dei campi (Professione o Città).";
-    }
-
-    // Se non ci sono errori, esegui la ricerca
-    if (empty($errors)) {
-        // Crea la query di ricerca
-        $query = "SELECT * FROM persone WHERE 1=1";  // 1=1 è una condizione sempre vera, per facilitare l'aggiunta dinamica di altre condizioni
-        $params = []; // Array per i parametri della query
-
-        // Aggiungi la condizione per la professione, solo se è stata specificata
-        if ($professione) {
-            $query .= " AND professione ILIKE $1";
-            $params[] = '%' . $professione . '%';
-        }
-
-        // Aggiungi la condizione per la città, solo se è stata specificata
-        if ($citta) {
-            $query .= " AND citta ILIKE $" . (count($params) + 1); // Incremente il numero del parametro
-            $params[] = '%' . $citta . '%';
-        }
-
-        // Esegui la query con i parametri solo se ci sono campi compilati
-        $result = pg_query_params($conn, $query, $params);
-        if (!$result) {
-            echo "Errore nella query: " . pg_last_error($conn);
-            exit;
-        }
-    }
-}
+pg_close($conn); // Non dimenticare di chiudere la connessione
 ?>
+
 
 <!DOCTYPE html>
 <html lang="it">
