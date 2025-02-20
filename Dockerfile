@@ -1,8 +1,11 @@
 # Usa l'immagine PHP con Apache
 FROM php:8.1-apache
 
-# Installa le estensioni PHP necessarie (ad esempio, PostgreSQL)
-RUN docker-php-ext-install pdo pdo_pgsql
+# Installa le dipendenze necessarie
+RUN apt-get update && apt-get install -y \
+    libpq-dev \
+    && docker-php-ext-install pdo pdo_pgsql pgsql
+
 
 # Abilita mod_rewrite per Apache
 RUN a2enmod rewrite
