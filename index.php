@@ -25,14 +25,14 @@ if (!$result_professionisti) {
 
 // Codice per elaborare i risultati della query (ad esempio, stampare i dati)
 while ($row = pg_fetch_assoc($result_professionisti)) {
-    echo "Nome: " . $row['nome'] . "<br>";
-    echo "Cognome: " . $row['cognome'] . "<br>";
-    // Aggiungi altri campi come necessario
+    echo "Nome: " . htmlspecialchars($row['nome']) . "<br>"; // Usiamo htmlspecialchars per prevenire XSS
+    echo "Cognome: " . htmlspecialchars($row['cognome']) . "<br>"; // Usiamo htmlspecialchars per prevenire XSS
 }
 
 // Chiudi la connessione
 pg_close($conn);
 ?>
+
 
 
 
