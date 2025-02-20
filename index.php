@@ -49,7 +49,7 @@ pg_close($conn);
     <title>Home | Azienda Ricerca Professionisti</title>
     <link rel="stylesheet" href="styles.css">
 </head>
-
+<br><br><br><br>
 <body>
     <!-- Barra di navigazione fissa -->
     <header class="navbar">
@@ -64,7 +64,7 @@ pg_close($conn);
             </ul>
         </nav>
     </header>
-
+    <br><br><br><br>
     <!-- Sezione di ricerca orizzontale -->
     <section class="search-section">
         <div class="search-container">
@@ -121,7 +121,7 @@ pg_close($conn);
         }
         ?>
     </section>
-
+    <br><br><br><br>
     <footer>
         <div class="footer-container">
             <!-- Links principali -->
