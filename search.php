@@ -17,6 +17,8 @@ if (!$conn) {
 // Variabile per tenere traccia se è stato inviato un commento
 $commento_inviato = false;
 $commento_successo = '';
+$professione = isset($_GET['professione']) ? $_GET['professione'] : ''; // Imposta a '' se non è definito
+$citta = isset($_GET['citta']) ? $_GET['citta'] : ''; // Imposta a '' se non è definito
 
 // Gestire l'invio dei commenti
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['commento'], $_POST['professionista_id'])) {
@@ -70,46 +72,34 @@ pg_close($conn); // Non dimenticare di chiudere la connessione
     </header>
 
     <!-- Sezione di ricerca -->
-<section class="search-section">
-    <div class="search-container">
-        <p class="subheading">
-            Hai cercato: <strong><?php echo htmlspecialchars($professione ?: 'Tutte le professioni'); ?></strong> nella città <strong><?php echo htmlspecialchars($citta ?: 'Tutte le città'); ?></strong>
-        </p>
-        <form action="search.php" method="get" class="search-form">
-            <div class="input-group">
-                <label for="professione">Professione:</label>
-                <input type="text" id="professione" name="professione" value="<?php echo htmlspecialchars($professione); ?>" placeholder="Es. Medico">
-            </div>
-            <div class="input-group">
-                <label for="citta">Città:</label>
-                <input type="text" id="citta" name="citta" value="<?php echo htmlspecialchars($citta); ?>" placeholder="Es. Roma">
-            </div>
-            <button type="submit" class="btn-search">Cerca</button>
-        </form>
-    </div>
-</section>
-
-<!-- Risultati della ricerca -->
-<section class="results-section">
-    <?php if ($result_professionisti && pg_num_rows($result_professionisti) > 0): ?>
-        <div class="search-results">
-            <?php while ($row = pg_fetch_assoc($result_professionisti)): ?>
-                <div class="result-card">
-                    <h3><?php echo htmlspecialchars($row['nome']) . ' ' . htmlspecialchars($row['cognome']); ?></h3>
-                    <p><strong>Professione:</strong> <?php echo htmlspecialchars($row['professione']); ?></p>
-                    <p><strong>Città:</strong> <?php echo htmlspecialchars($row['citta']); ?></p>
-                    <!-- Altri dettagli -->
+    <section class="search-section">
+        <div class="search-container">
+            <p class="subheading">
+                Hai cercato: <strong><?php echo htmlspecialchars($professione ?: 'Tutte le professioni'); ?></strong> nella città <strong><?php echo htmlspecialchars($citta ?: 'Tutte le città'); ?></strong>
+            </p>
+            <form action="search.php" method="get" class="search-form">
+                <div class="input-group">
+                    <label for="professione">Professione:</label>
+                    <input type="text" id="professione" name="professione" value="<?php echo htmlspecialchars($professione); ?>" placeholder="Es. Medico">
                 </div>
-            <?php endwhile; ?>
+                <div class="input-group">
+                    <label for="citta">Città:</label>
+                    <input type="text" id="citta" name="citta" value="<?php echo htmlspecialchars($citta); ?>" placeholder="Es. Roma">
+                </div>
+                <button type="submit" class="btn-search">Cerca</button>
+            </form>
         </div>
-    <?php else: ?>
-        <p>Non ci sono risultati per la tua ricerca.</p>
-    <?php endif; ?>
-</section>
+    </section>
 
-<?php
-pg_close($conn); // Chiudi la connessione
-?>
+    <!-- Sezione per i risultati della ricerca -->
+    <section class="results-section">
+        <div class="search-results">
+            <!-- Messaggio di commento inviato con successo -->
+            <?php if ($commento_inviato): ?>
+                <div class="success-message">
+                    <p><?php echo $commento_successo; ?></p>
+                </div>
+            <?php endif; ?>
 
             <!-- Visualizzazione dei risultati della ricerca, se non è stato inviato un commento -->
             <?php if (!$commento_inviato): ?>
