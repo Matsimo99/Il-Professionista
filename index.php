@@ -25,19 +25,7 @@ if (!$result_professionisti) {
     exit;
 }
 
-// Codice per elaborare i risultati della query (ad esempio, stampare i dati)
-while ($row = pg_fetch_assoc($result_professionisti)) {
-    echo "Nome: " . htmlspecialchars($row['nome']) . "<br>"; // Usiamo htmlspecialchars per prevenire XSS
-    echo "Cognome: " . htmlspecialchars($row['cognome']) . "<br>"; // Usiamo htmlspecialchars per prevenire XSS
-}
-
-// Chiudi la connessione
-pg_close($conn);
 ?>
-
-
-
-
 
 <!DOCTYPE html>
 <html lang="it">
@@ -49,7 +37,7 @@ pg_close($conn);
     <title>Home | Azienda Ricerca Professionisti</title>
     <link rel="stylesheet" href="styles.css">
 </head>
-<br><br><br><br>
+
 <body>
     <!-- Barra di navigazione fissa -->
     <header class="navbar">
@@ -64,7 +52,7 @@ pg_close($conn);
             </ul>
         </nav>
     </header>
-    <br><br><br><br>
+
     <!-- Sezione di ricerca orizzontale -->
     <section class="search-section">
         <div class="search-container">
@@ -121,7 +109,7 @@ pg_close($conn);
         }
         ?>
     </section>
-    <br><br><br><br>
+
     <footer>
         <div class="footer-container">
             <!-- Links principali -->
