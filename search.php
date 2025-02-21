@@ -8,6 +8,9 @@ $password = 'MyafAY0wufx7p2gqyiqevR7EddKmxBMu';  // La password del database
 
 // Connessione al database
 $conn = pg_connect("host=$host port=$port dbname=$dbname user=$user password=$password");
+$professione = isset($_GET['professione']) ? $_GET['professione'] : ''; // Imposta a '' se non è definito
+$citta = isset($_GET['citta']) ? $_GET['citta'] : ''; // Imposta a '' se non è definito
+
 if (!$conn) {
     echo "Errore nella connessione al database.";
     exit;
