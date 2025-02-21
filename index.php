@@ -20,6 +20,15 @@ if (!$conn) {
 $query = "SELECT * FROM persone"; // Recupera tutti i professionisti
 $result_professionisti = pg_query($conn, $query);
 
+if (!$conn) {
+    echo "Errore nella connessione al database.";
+    exit;
+}
+
+// Ottieni i professionisti dalla tabella persone
+$query = "SELECT * FROM persone"; // Recupera tutti i professionisti
+$result_professionisti = pg_query($conn, $query);
+
 if (!$result_professionisti) {
     echo "Errore nella query: " . pg_last_error($conn);
     exit;

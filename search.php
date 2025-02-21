@@ -8,7 +8,6 @@ $password = 'MyafAY0wufx7p2gqyiqevR7EddKmxBMu';  // La password del database
 
 // Connessione al database
 $conn = pg_connect("host=$host port=$port dbname=$dbname user=$user password=$password");
-
 if (!$conn) {
     echo "Errore nella connessione al database.";
     exit;
