@@ -1,15 +1,13 @@
 <?php
-// Parametri di connessione al database PostgreSQL di Render
-$host = 'dpg-curf2orv2p9s73ahh69g-a.oregon-postgres.render.com';
-$port = '5432';  // La porta di default di PostgreSQL
-$dbname = 'profslq';  // Il nome del database
-$user = 'profslq_user';  // Nome utente del database
-$password = 'MyafAY0wufx7p2gqyiqevR7EddKmxBMu';  // La password del database
+// Parametri di connessione al database PostgreSQL
+$host = 'localhost';
+$port = '5432';
+$dbname = 'prova_db';  // Usa il database 'prova_db'
+$user = 'postgres';
+$password = 'ciao';
 
 // Connessione al database
 $conn = pg_connect("host=$host port=$port dbname=$dbname user=$user password=$password");
-$professione = isset($_GET['professione']) ? $_GET['professione'] : ''; // Imposta a '' se non è definito
-$citta = isset($_GET['citta']) ? $_GET['citta'] : ''; // Imposta a '' se non è definito
 
 if (!$conn) {
     echo "Errore nella connessione al database.";
@@ -49,6 +47,7 @@ if (!$result_professionisti) {
                 <li><a href="index.php">Home</a></li>
                 <li><a href="chi_siamo.php">Chi Siamo</a></li>
                 <li><a href="trattamento_dati.php">Trattamento dei Dati</a></li>
+                <li><a href="lavora_con_noi.php">Lavora con noi</a></li>
             </ul>
         </nav>
     </header>
@@ -74,77 +73,129 @@ if (!$result_professionisti) {
         </div>
     </section>
 
-    <!-- Sezione per i commenti professionisti -->
     <section class="comments-list">
-        <?php
-        // Recuperiamo e visualizziamo i commenti per ogni professionista
-        while ($row_professionista = pg_fetch_assoc($result_professionisti)) {
-            $professionista_id = $row_professionista['id'];
-            $nome_professionista = $row_professionista['nome'] . ' ' . $row_professionista['cognome'];
-            $query_commenti = "SELECT * FROM commenti WHERE professionista_id = $1 ORDER BY data DESC"; // Commenti per il professionista
-            $result_commenti = pg_query_params($conn, $query_commenti, array($professionista_id));
+    <?php
+    // Recuperiamo i professionisti con valutazioni
+    $query_professionisti = "
+    SELECT p.id, p.nome, p.cognome, p.professione  -- Aggiungi la professione
+    FROM persone p
+    WHERE EXISTS (
+        SELECT 1 FROM valutazioni v WHERE v.professionista_id = p.id
+    )
+    ORDER BY p.id DESC
+    LIMIT 6;
+    ";
+    $result_professionisti = pg_query($conn, $query_professionisti);
 
-            // Verifica se ci sono commenti per il professionista
-            if ($result_commenti && pg_num_rows($result_commenti) > 0) {
-                echo "<div class='professionista-commenti'>"; // Aggiungi una classe specifica
-                echo "<h4 class='comment-title'>$nome_professionista</h4>"; // Modifica il titolo del professionista
+    while ($row_professionista = pg_fetch_assoc($result_professionisti)) {
+        $professionista_id = $row_professionista['id'];
+        $nome_professionista = $row_professionista['nome'] . ' ' . $row_professionista['cognome'];
+        $professione = $row_professionista['professione'];  // Aggiungi professione
 
-                // Aggiungi l'immagine del profilo, caricato dalla cartella 'profili'
-                $image_path = "profili/{$professionista_id}.jpg";
-                if (file_exists($image_path)) {
-                    echo "<img src='$image_path' alt='Immagine di $nome_professionista' class='comment-img'>";
-                } else {
-                    echo "<img src='profili/default.jpg' alt='Immagine di default' class='comment-img'>";
+        // Query per recuperare la media delle valutazioni
+        $query_valutazioni_media = "
+        SELECT AVG(v.valutazione) AS media_valutazione
+        FROM valutazioni v
+        WHERE v.professionista_id = $1
+        ";
+        $result_valutazioni_media = pg_query_params($conn, $query_valutazioni_media, array($professionista_id));
+
+        // Verifica se ci sono valutazioni per il professionista
+        if ($result_valutazioni_media && pg_num_rows($result_valutazioni_media) > 0) {
+            $media_valutazione = pg_fetch_assoc($result_valutazioni_media)['media_valutazione'];
+            $stelle = round($media_valutazione);  // Arrotonda al numero intero più vicino
+            if ($stelle < 1) $stelle = 1;  // Assicurati che la valutazione non scenda sotto 1
+            if ($stelle > 5) $stelle = 5;  // Assicurati che la valutazione non superi 5
+
+            echo "<div class='professionista-commenti'>";
+            echo "<h4 class='comment-title'>$nome_professionista</h4>";
+
+            // Aggiungi l'immagine del profilo
+            $image_path = "profili/{$professionista_id}.jpg";
+            if (file_exists($image_path)) {
+                echo "<img src='$image_path' alt='Immagine di $nome_professionista' class='comment-img'>";
+            } else {
+                echo "<img src='profili/default.jpg' alt='Immagine di default' class='comment-img'>";
+            }
+
+            // Visualizza la professione
+            if (!empty($professione)) {
+                echo "<p class='professione'>$professione</p>";  // Mostra la professione
+            }
+
+            // Stelle di valutazione
+            echo "<div class='stelle-valutazione'>";
+            for ($i = 1; $i <= 5; $i++) {
+                if ($i <= $stelle) {
+                    // Stelle piene
+                    echo "<label class='full' for='star$i'>&#9733;</label>"; // Stella gialla
                 }
+            }
+            echo "</div>"; // Fine delle stelle
 
-                // Se ci sono commenti, visualizzali
-                while ($commento = pg_fetch_assoc($result_commenti)) {
-                    echo "<div class='search-comment-box'>"; // Classe aggiornata
-                    echo "<p><strong>Commento:</strong> " . htmlspecialchars($commento['commento']) . "</p>";
-                    echo "<p><em>Data: " . htmlspecialchars($commento['data']) . "</em></p>";
+            // Query per recuperare tutte le recensioni
+            $query_valutazioni = "
+            SELECT v.punteggio, v.data
+            FROM valutazioni v
+            WHERE v.professionista_id = $1
+            ORDER BY v.data DESC
+            ";
+            $result_valutazioni = pg_query_params($conn, $query_valutazioni, array($professionista_id));
+
+            // Visualizza le recensioni singole
+            if ($result_valutazioni && pg_num_rows($result_valutazioni) > 0) {
+                echo "<h5>Valutazioni:</h5>";
+                while ($valutazione = pg_fetch_assoc($result_valutazioni)) {
+                    echo "<div class='search-comment-box'>";
+                    echo "<p><strong>Valutazione:</strong> " . htmlspecialchars($valutazione['punteggio']) . "/5</p>";
+                    echo "<p><em>Data: " . htmlspecialchars($valutazione['data']) . "</em></p>";
                     echo "</div>";
                 }
-                echo "</div>"; // Chiudi la sezione del professionista
             }
+            echo "</div>"; // Fine del professionista
         }
-        ?>
-    </section>
+    }
+    ?>
+</section>
+
+
+
+
 
     <footer>
         <div class="footer-container">
             <!-- Links principali -->
             <div class="footer-links">
-                <ul>
+            <ul>
                     <li><a href="#">Privacy</a></li>
                     <li><a href="#">Informativa Cookie</a></li>
                     <li><a href="#">Termini e Condizioni</a></li>
                     <li><a href="#">Contatti</a></li>
                     <li><a href="#">Help & Contatti</a></li>
-                    <li><a href="#">Lavora con noi</a></li>
                     <li><a href="#">Diventa Professionista</a></li>
                     <li><a href="#">Domande Frequenti (FAQ)</a></li>
                 </ul>
             </div>
 
             <div class="footer-social">
-    <ul>
-        <li>
-            <a href="https://www.facebook.com/profile.php?id=61570141079818">
-                <img src="fb.png" alt="Facebook" style="width: 30px; height: 30px;">
-            </a>
-        </li>
-        <li>
-            <a href="https://www.instagram.com/ilprofessionista2.0?igsh=d2swbGl0OWhoMXhs">
-                <img src="in.webp" alt="Instagram" style="width: 30px; height: 30px;">
-            </a>
-        </li>
-        <li>
-            <a href="">
-                <img src="what.png" alt="WhatsApp" style="width: 30px; height: 30px;">
-            </a>
-        </li>
-    </ul>
-</div>
+                <ul>
+                    <li>
+                        <a href="https://www.facebook.com/profile.php?id=61570141079818">
+                            <img src="fb.png" alt="Facebook" style="width: 30px; height: 30px;">
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://www.instagram.com/ilprofessionista2.0?igsh=d2swbGl0OWhoMXhs">
+                            <img src="in.webp" alt="Instagram" style="width: 30px; height: 30px;">
+                        </a>
+                    </li>
+                    <li>
+                        <a href="">
+                            <img src="what.png" alt="WhatsApp" style="width: 30px; height: 30px;">
+                        </a>
+                    </li>
+                </ul>
+            </div>
 
             <!-- Copyright -->
             <div class="footer-bottom">

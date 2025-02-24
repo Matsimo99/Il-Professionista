@@ -20,6 +20,7 @@
                 <li><a href="index.php">Home</a></li>
                 <li><a href="chi_siamo.php">Chi Siamo</a></li>
                 <li><a href="trattamento_dati.php">Trattamento dei Dati</a></li>
+                <li><a href="lavora_con_noi.php">Lavora con noi</a></li>
             </ul>
         </nav>
     </header>

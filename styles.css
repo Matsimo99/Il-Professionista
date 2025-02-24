@@ -62,6 +62,19 @@ body {
     color: #ffc107; /* Colore giallo quando si passa sopra il link */
 }
 
+.stelle-valutazione {
+    display: flex;
+    justify-content: center;
+    gap: 5px; /* Spazio tra le stelle */
+}
+
+.stelle-valutazione label {
+    font-size: 30px;
+    color: #FFD700;  /* Colore giallo per tutte le stelle */
+    cursor: pointer;
+}
+
+
 
 
 /* Barra di ricerca orizzontale */
@@ -152,22 +165,7 @@ body {
     margin-right: auto;               /* Centra il messaggio */
 }
 
-/* Sezione commenti */
-.search-comment-box {
-    background-color: #ffffff;
-    border: 1px solid #ddd;
-    padding-top: 20px; /* Aggiunge un po' di spazio sopra il footer */
-    padding-bottom: 30px; /* Aggiunge spazio sotto il footer, se necessario */
-    margin: 40px 0; /* Distanza tra la barra di ricerca e il footer */
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-}
 
-.search-comment-box h3 {
-    font-size: 24px;
-    color: #333;
-    margin-bottom: 20px;
-    text-align: center;
-}
 
 .comments-list {
     display: flex;
@@ -190,9 +188,18 @@ body {
 }
 
 .professionista-commenti img {
-    border-radius: 50%;
-    margin-bottom: 10px;
+    border-radius: 50%; /* Angoli arrotondati */
+    width: 90px; /* Imposta una larghezza fissa */
+    height: 90px; /* Imposta un'altezza fissa */
+    object-fit: cover; /* Adatta l'immagine senza distorsioni */
+    margin-top: 10px;
+    margin-bottom: 10px;    
+    display: block; /* Rimuove eventuali spazi extra */
+    margin-left: auto; /* Centra l'immagine orizzontalmente */
+    margin-right: auto; /* Centra l'immagine orizzontalmente */
 }
+
+
 
 .comment {
     padding: 10px;
@@ -210,6 +217,10 @@ body {
     border-bottom: none;
 }
 
+
+
+
+
 /* Unifica le due definizioni di .search-comment-section */
 .search-comment-section {
     margin-top: 0px;
@@ -225,64 +236,17 @@ body {
     padding: 10px;  /* Aggiungi più padding per spazio interno */
 }
 
-
-/* Contenitore per il form del commento */
-.search-comment-container {
-    max-width: 300px; /* Imposta una larghezza massima */
-    margin: 0 auto;   /* Centra il form orizzontalmente */
-}
-
-/* Form del commento */
-.comment-form {
-    display: flex;
-    flex-direction: column; /* Organizza gli elementi in verticale */
-    gap: 15px; /* Distanza tra gli elementi */
-}
-
-/* Gruppo di input (etichetta + campo di testo) */
-.input-group {
-    display: flex;
-    flex-direction: column;
-}
-
-.input-group label {
-    font-weight: bold;
-    margin-bottom: 5px;
+.professione {
+    font-size: 18px;
+    color: #555;
+    margin-top: 10px;
+    font-style: italic;
 }
 
 
-/* Focus sul textarea */
-.input-group textarea:focus {
-    border-color: #4CAF50;  /* Cambia il colore del bordo al focus */
-    outline: none;  /* Rimuovi l'outline per una transizione pulita */
-}
 
 
-/* Media Query per schermi piccoli */
-@media (max-width: 600px) {
-    .input-group textarea {
-        height: 35px;  /* Riduci ulteriormente l'altezza del textarea sui dispositivi mobili */
-        font-size: 11px;  /* Font ancora più piccolo sui dispositivi mobili */
-    }
 
-    .btn-submit-comment {
-        font-size: 12px;  /* Riduci la dimensione del font sui dispositivi mobili */
-        padding: 6px 10px;  /* Riduci il padding sui dispositivi mobili */
-    }
-
-    .comment-section {
-        flex-direction: column;  /* Metti gli elementi in colonna su schermi piccoli */
-        align-items: stretch;    /* Allinea gli elementi alla larghezza del contenitore */
-    }
-
-    .comment-section textarea {
-        max-width: none;  /* Rimuovi il limite di larghezza per il campo di testo */
-    }
-
-    .comment-section button {
-        width: 100%;  /* Fai in modo che il bottone occupi tutta la larghezza disponibile */
-    }
-}
 
 /* Stile per il messaggio di successo */
 .success-message {
@@ -340,62 +304,132 @@ body {
     gap: 5px;                  /* Spazio tra i dati */
 }
 
-
-
-/* Sezione per il commento */
-.search-comment-section {
+/* Sezione per la valutazione delle stelle */
+.star-rating {
     display: flex;
-    flex-direction: column; /* Manteniamo l'organizzazione verticale */
-    gap: 10px;
-    margin-top: 0px;
-    margin-bottom: 0px;
-    width: 50%; /* Puoi modificarla in base alle tue necessità */
-    justify-content: flex-start; /* Allinea gli elementi a sinistra */
-    padding: 10px;
-    background-color: #fff;
-    border-radius: 5px;
-    border: 1px solid #ccc;
-    position: relative; /* Per poter posizionare il bottone fuori dal riquadro */
-}
-
-/* Form del commento */
-.comment-form {
-    display: flex;  /* Disporre gli elementi orizzontalmente */
-    flex-direction: row;
-    gap: 10px;
-    align-items: center;
-    width: 100%;
-}
-
-/* Campo di testo per il commento */
-.search-comment-section textarea {
-    width: 100%;  /* Occupa tutta la larghezza disponibile */
-    max-width: 200px;  /* Imposta una larghezza massima */
-    height: 40px;
-    padding: 10px;
-    font-size: 14px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-}
-
-/* Bottone per inviare il commento */
-.search-comment-section button {
-    padding: 10px 15px;
-    background-color: #4CAF50;
-    color: white;
-    border: none;
-    border-radius: 5px;
+    justify-content: center;  /* Centra le stelle orizzontalmente */
+    align-items: center;      /* Centra le stelle verticalmente */
+    font-size: 35px;          /* Aumenta la dimensione delle stelle */
+    direction: rtl;           /* Inverte l'ordine delle stelle */
     cursor: pointer;
-    min-width: 120px;
-    position: absolute;  /* Posiziona il bottone fuori dal riquadro */
-    right: 20px;  /* Fa sporgere il bottone a destra fuori dal contenitore */
-    top: 50%;  /* Posiziona il bottone al centro del campo di testo */
-    transform: translateY(-50%);  /* Allinea verticalmente il bottone al centro */
+    margin-bottom: 20px;      /* Aggiunge spazio tra la valutazione e il bottone */
 }
+
+.star-rating input {
+    display: none;  /* Nasconde gli input radio */
+}
+
+.star-rating label {
+    color: #ccc;  /* Colore per le stelle vuote */
+    transition: color 0.3s ease-in-out;  /* Transizione per il cambiamento di colore */
+}
+
+.star-rating input:checked ~ label {
+    color: #FFD700;  /* Colore per le stelle piene */
+}
+
+.star-rating label:hover, 
+.star-rating label:hover ~ label {
+    color: #FFD700;  /* Colore giallo per le stelle su hover */
+}
+
+.star-rating input:checked + label {
+    color: #FFD700;  /* Colore giallo per la stella selezionata */
+}
+
+/* Bottone per inviare la valutazione */
+.btn-submit-comment {
+    display: inline-block;
+    background-color: #007bff;  /* Colore di sfondo blu */
+    color: white;                /* Colore del testo bianco */
+    font-size: 16px;             /* Imposta una dimensione di font leggibile */
+    padding: 10px 20px;          /* Aggiunge padding per rendere il bottone più grande */
+    border-radius: 5px;          /* Angoli arrotondati */
+    border: none;                /* Rimuove il bordo */
+    cursor: pointer;            /* Cambia il cursore al passaggio sopra il bottone */
+    transition: background-color 0.3s ease;  /* Aggiunge una transizione per l'effetto hover */
+    text-align: center;          /* Centra il testo */
+}
+
+.btn-submit-comment:hover {
+    background-color: #0056b3;  /* Cambia il colore di sfondo al passaggio del mouse */
+}
+
+
+
+
+
 
 /* Hover sul bottone */
 .search-comment-section button:hover {
     background-color: #45a049;
+}
+
+
+/* Sezione Lavora con Noi */
+.lavora-con-noi {
+    text-align: center;
+    padding: 40px 20px;
+    background-color: rgba(255, 255, 255, 0.9);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    margin-top: 150px; /* Separazione dalla navbar */
+    margin-bottom: 50px; /* Aggiungi margine inferiore per separarla dal footer */
+}
+
+.lavora-con-noi h1 {
+    font-size: 32px;
+    color: #333;
+    margin-bottom: 20px;
+}
+
+.lavora-con-noi h2 {
+    font-size: 24px;
+    color: #007bff;
+    margin-bottom: 15px;
+}
+
+.lavora-con-noi p {
+    font-size: 16px;
+    color: #555;
+    margin-bottom: 20px;
+    line-height: 1.6;
+}
+
+.lavora-con-noi a {
+    color: #007bff;
+    text-decoration: none;
+}
+
+.lavora-con-noi a:hover {
+    text-decoration: underline;
+}
+
+.lavora-container {
+    max-width: 1000px;
+    margin: 0 auto;
+}
+
+/* Stile per le liste delle posizioni aperte */
+.lavora-con-noi ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+.lavora-con-noi ul li {
+    margin-bottom: 20px;
+    font-size: 16px;
+    color: #555;
+}
+
+.lavora-con-noi ul li strong {
+    font-size: 18px;
+    color: #007bff;
+}
+
+.lavora-con-noi h3 {
+    font-size: 22px;
+    color: #333;
+    margin-bottom: 15px;
 }
 
 
@@ -483,7 +517,6 @@ body {
 }
 
 
-
 /* Impostazione della pagina per il layout a schermo intero */
 html, body {
     height: 100%;
@@ -496,13 +529,13 @@ html, body {
 .main-content {
     flex: 1;
     padding: 20px;
-    margin-bottom: 50px; /* Aggiungi margine inferiore per distanziare dal footer */
+    margin-bottom: 20px; /* Aggiungi margine inferiore per distanziare dal footer */
 }
 
 /* Footer container */
 footer {
     background-color: #f1f1f1;
-    padding: 20px 0;
+    padding: 15px 0; /* Ridotto il padding per ridurre l'altezza */
     text-align: center;
     margin-top: 20px; /* Aggiungi un margine in alto per separarlo dal contenuto */
 }
@@ -521,7 +554,7 @@ footer {
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
-    margin-bottom: 10px;
+    margin-bottom: 5px; /* Ridotto margine tra social e link */
 }
 
 .footer-links ul, .footer-social ul {
@@ -533,7 +566,7 @@ footer {
 }
 
 .footer-links li, .footer-social li {
-    margin: 5px 10px;
+    margin: 3px 8px; /* Ridotto margine per comprimere le voci */
 }
 
 .footer-links a, .footer-social a {
@@ -551,7 +584,7 @@ footer {
 .footer-bottom p {
     font-size: 14px;
     color: #333;
-    margin-top: 20px;
+    margin-top: 10px; /* Ridotto margine superiore */
 }
 
 /* Rende il footer sempre ancorato al fondo */

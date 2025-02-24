@@ -1,43 +1,42 @@
 <?php
-// Parametri di connessione al database PostgreSQL di Render
-$host = 'dpg-curf2orv2p9s73ahh69g-a.oregon-postgres.render.com';
-$port = '5432';  // La porta di default di PostgreSQL
-$dbname = 'profslq';  // Il nome del database
-$user = 'profslq_user';  // Nome utente del database
-$password = 'MyafAY0wufx7p2gqyiqevR7EddKmxBMu';  // La password del database
+// Parametri di connessione al database PostgreSQL
+$host = 'localhost';
+$port = '5432';
+$dbname = 'prova_db';  // Usa il database 'prova_db'
+$user = 'postgres';
+$password = 'ciao';
 
 // Connessione al database
 $conn = pg_connect("host=$host port=$port dbname=$dbname user=$user password=$password");
-$professione = isset($_GET['professione']) ? $_GET['professione'] : ''; // Imposta a '' se non è definito
-$citta = isset($_GET['citta']) ? $_GET['citta'] : ''; // Imposta a '' se non è definito
 
 if (!$conn) {
     echo "Errore nella connessione al database.";
     exit;
 }
 
-// Variabile per tenere traccia se è stato inviato un commento
-$commento_inviato = false;
-$commento_successo = '';
 
-// Gestire l'invio dei commenti
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['commento'], $_POST['professionista_id'])) {
-    $commento = $_POST['commento'];
-    $professionista_id = $_POST['professionista_id'];
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    if (isset($_POST['rating']) && isset($_POST['professionista_id'])) {
+        $rating = $_POST['rating'];
+        $professionista_id = $_POST['professionista_id'];
 
-    if (!empty($commento)) {
-        // Inserisci il commento nel database
-        $insert_query = "INSERT INTO commenti (professionista_id, commento) VALUES ($1, $2)";
-        $result_insert = pg_query_params($conn, $insert_query, [$professionista_id, $commento]);
+        // Esegui la query per inserire la valutazione nel database
+        $query = "INSERT INTO valutazioni (professionista_id, valutazione) VALUES ($1, $2)";
+        $result = pg_query_params($conn, $query, array($professionista_id, $rating));
 
-        if ($result_insert) {
-            $commento_inviato = true; // Commento inviato con successo
-            $commento_successo = 'Il tuo commento è stato inviato con successo!';
+        if ($result) {
+            // Setta le variabili per il messaggio di successo
+            $commento_inviato = true;
+            $commento_successo = "Valutazione inviata con successo!";
         } else {
-            echo "Errore nell'inserimento del commento: " . pg_last_error($conn);
+            // In caso di errore
+            $commento_inviato = true;
+            $commento_successo = "Si è verificato un errore nell'invio della valutazione.";
         }
     }
 }
+
+
 
 // Variabili per la ricerca
 $professione = $_GET['professione'] ?? '';
@@ -100,6 +99,7 @@ if (!$commento_inviato) {
                 <li><a href="index.php">Home</a></li>
                 <li><a href="chi_siamo.php">Chi Siamo</a></li>
                 <li><a href="trattamento_dati.php">Trattamento dei Dati</a></li>
+                <li><a href="lavora_con_noi.php">Lavora con noi</a></li>
             </ul>
         </nav>
     </header>
@@ -127,7 +127,7 @@ if (!$commento_inviato) {
     <!-- Sezione per i risultati della ricerca -->
     <section class="results-section">
         <div class="search-results">
-            <!-- Messaggio di commento inviato con successo -->
+            <!-- Messaggio di valutazione inviata con successo -->
             <?php if ($commento_inviato): ?>
                 <div class="success-message">
                     <p><?php echo $commento_successo; ?></p>
@@ -163,81 +163,97 @@ if (!$commento_inviato) {
                                 <p><strong>Indirizzo:</strong> <?php echo htmlspecialchars($row['via']); ?></p>
                             </div>
 
-                            <!-- Sezione per aggiungere il commento -->
                             <section class="search-comment-section">
                                 <div class="search-comment-container">
                                     <form action="search.php" method="POST" class="comment-form">
                                         <input type="hidden" name="professionista_id" value="<?php echo $row['id']; ?>">
 
                                         <div class="input-group">
-                                            <label for="commento">Scrivi il tuo commento:</label>
-                                            <textarea name="commento" id="commento" placeholder="Scrivi qui..." required></textarea>
+                                            <label for="valutazione">Valuta il professionista:</label>
+                                            <div class="star-rating">
+                                                <input type="radio" id="star1" name="rating" value="5"><label for="star1">★</label>
+                                                <input type="radio" id="star2" name="rating" value="4"><label for="star2">★</label>
+                                                <input type="radio" id="star3" name="rating" value="3"><label for="star3">★</label>
+                                                <input type="radio" id="star4" name="rating" value="2"><label for="star4">★</label>
+                                                <input type="radio" id="star5" name="rating" value="1"><label for="star5">★</label>
+                                            </div>
+
                                         </div>
 
-                                        <!-- Bottone per inviare il commento, posizionato accanto al campo di testo -->
-                                        <button type="submit" class="btn-submit-comment">Invia Commento</button>
-                                    </form>
+
+
                                 </div>
-                            </section>
+
+                                <!-- Bottone per inviare la valutazione -->
+                                <button type="submit" class="btn-submit-comment">Invia Valutazione</button>
+                                </form>
                         </div>
-                    <?php endwhile; ?>
-                <?php else: ?>
-                    <div class="no-results">
-                        <p>Non ci sono risultati per la tua ricerca.</p>
-                    </div>
-                <?php endif; ?>
-            <?php endif; ?>
-        </div>
     </section>
 
 
 
-    <footer>
-        <div class="footer-container">
-            <!-- Links principali -->
-            <div class="footer-links">
-                <ul>
+
+
+
+    </div>
+<?php endwhile; ?>
+<?php else: ?>
+    <div class="no-results">
+        <p>Non ci sono risultati per la tua ricerca.</p>
+    </div>
+<?php endif; ?>
+<?php endif; ?>
+</div>
+</section>
+
+
+
+
+<footer>
+    <div class="footer-container">
+        <!-- Links principali -->
+        <div class="footer-links">
+        <ul>
                     <li><a href="#">Privacy</a></li>
                     <li><a href="#">Informativa Cookie</a></li>
                     <li><a href="#">Termini e Condizioni</a></li>
                     <li><a href="#">Contatti</a></li>
                     <li><a href="#">Help & Contatti</a></li>
-                    <li><a href="#">Lavora con noi</a></li>
                     <li><a href="#">Diventa Professionista</a></li>
                     <li><a href="#">Domande Frequenti (FAQ)</a></li>
                 </ul>
-            </div>
-
-            <div class="footer-social">
-    <ul>
-        <li>
-            <a href="https://www.facebook.com/profile.php?id=61570141079818">
-                <img src="fb.png" alt="Facebook" style="width: 30px; height: 30px;">
-            </a>
-        </li>
-        <li>
-            <a href="https://www.instagram.com/ilprofessionista2.0?igsh=d2swbGl0OWhoMXhs">
-                <img src="in.webp" alt="Instagram" style="width: 30px; height: 30px;">
-            </a>
-        </li>
-        <li>
-            <a href="">
-                <img src="what.png" alt="WhatsApp" style="width: 30px; height: 30px;">
-            </a>
-        </li>
-    </ul>
-</div>
-
-            <!-- Copyright -->
-            <div class="footer-bottom">
-                <p>&copy; 2025 Azienda Ricerca Professionisti - Tutti i diritti riservati</p>
-            </div>
         </div>
-    </footer>
 
-    <script>
+        <div class="footer-social">
+            <ul>
+                <li>
+                    <a href="https://www.facebook.com/profile.php?id=61570141079818">
+                        <img src="fb.png" alt="Facebook" style="width: 30px; height: 30px;">
+                    </a>
+                </li>
+                <li>
+                    <a href="https://www.instagram.com/ilprofessionista2.0?igsh=d2swbGl0OWhoMXhs">
+                        <img src="in.webp" alt="Instagram" style="width: 30px; height: 30px;">
+                    </a>
+                </li>
+                <li>
+                    <a href="">
+                        <img src="what.png" alt="WhatsApp" style="width: 30px; height: 30px;">
+                    </a>
+                </li>
+            </ul>
+        </div>
+
+        <!-- Copyright -->
+        <div class="footer-bottom">
+            <p>&copy; 2025 Azienda Ricerca Professionisti - Tutti i diritti riservati</p>
+        </div>
+    </div>
+</footer>
+
+<script>
     // Funzione per validare il modulo di ricerca
-    document.querySelector('.search-form').addEventListener('submit', function (event) {
+    document.querySelector('.search-form').addEventListener('submit', function(event) {
         const professione = document.querySelector('#professione').value.trim();
         const citta = document.querySelector('#citta').value.trim();
 
