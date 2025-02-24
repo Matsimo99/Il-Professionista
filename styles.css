@@ -356,19 +356,17 @@ body {
 }
 
 
-.no-results {
-    text-align: center;               /* Centra il testo orizzontalmente */
-    font-size: 18px;                  /* Imposta una dimensione del font maggiore per visibilità */
-    color: #555;                      /* Colore del testo grigio scuro */
-    background-color: #f8d7da;        /* Colore di sfondo rosso chiaro per farlo risaltare */
-    padding: 20px;                    /* Spaziatura intorno al testo */
-    border: 1px solid #f5c6cb;        /* Bordo di colore rosso chiaro */
-    border-radius: 5px;               /* Angoli arrotondati */
-    margin-top: 20px;                 /* Distanza dalla sezione precedente */
-    max-width: 600px;                 /* Larghezza massima per mantenere il testo compatto */
-    margin-left: auto;
-    margin-right: auto;               /* Centra il messaggio */
+.no-result {
+    font-size: 16px;
+    color: #ff0000; /* Rosso per evidenziare il messaggio */
+    text-align: center;
+    padding: 20px;
+    background-color: #f8d7da; /* Sfondo rosato */
+    border: 1px solid #f5c6cb;
+    border-radius: 5px;
+    margin-top: 20px;
 }
+
 
 
 
