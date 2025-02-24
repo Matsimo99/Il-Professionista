@@ -195,10 +195,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET' && !$valutazione_inviata) {
                 </div>
             </section>
         </div>
-    <?php endwhile; ?>
+        <?php endwhile; ?>
 <?php else: ?>
     <?php if ($no_results_message): ?>
-        <p>Non ci sono risultati per la tua ricerca.</p>
+        <p class="no-result">Non ci sono risultati per la tua ricerca.</p>
     <?php endif; ?>
 <?php endif; ?>
 

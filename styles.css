@@ -356,27 +356,19 @@ body {
 }
 
 
-.no-results-message {
+.no-results {
     text-align: center;               /* Centra il testo orizzontalmente */
-    font-size: 18px;                  /* Dimensione del font abbastanza grande per visibilità */
-    color: #555;                      /* Colore grigio scuro per il testo */
-    background-color: rgba(255, 223, 0, 0.1); /* Colore di sfondo giallo chiaro, poco invasivo */
-    padding: 20px;                    /* Spazio intorno al messaggio */
-    border-radius: 8px;               /* Angoli arrotondati */
-    border: 1px solid #FFD700;        /* Bordo sottile e dorato */
-    width: 70%;                       /* Imposta la larghezza al 70% per non coprire troppo lo schermo */
-    max-width: 500px;                 /* Imposta una larghezza massima */
-    margin: 50px auto;                /* Centra il messaggio verticalmente e orizzontalmente */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);  /* Leggera ombra per farlo risaltare senza essere invadente */
-    font-weight: bold;                /* Rende il testo più evidente */
-    transition: opacity 0.3s ease;    /* Aggiunge un'animazione di transizione in caso di cambiamento */
+    font-size: 18px;                  /* Imposta una dimensione del font maggiore per visibilità */
+    color: #555;                      /* Colore del testo grigio scuro */
+    background-color: #f8d7da;        /* Colore di sfondo rosso chiaro per farlo risaltare */
+    padding: 20px;                    /* Spaziatura intorno al testo */
+    border: 1px solid #f5c6cb;        /* Bordo di colore rosso chiaro */
+    border-radius: 5px;               /* Angoli arrotondati */
+    margin-top: 20px;                 /* Distanza dalla sezione precedente */
+    max-width: 600px;                 /* Larghezza massima per mantenere il testo compatto */
+    margin-left: auto;
+    margin-right: auto;               /* Centra il messaggio */
 }
-
-.no-results-message.fade-out {
-    opacity: 0;
-    visibility: hidden;               /* Nasconde il messaggio quando necessario */
-}
-
 
 
 
