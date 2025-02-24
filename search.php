@@ -1,10 +1,18 @@
 <?php
+// Inizializzazione delle variabili
+$valutazione_inviata = false; // Variabile per verificare se la valutazione è stata inviata
+$valutazione_successo = ''; // Messaggio di successo
+
 // Parametri di connessione al database PostgreSQL di Render
 $host = 'dpg-curf2orv2p9s73ahh69g-a.oregon-postgres.render.com';
 $port = '5432';  // La porta di default di PostgreSQL
 $dbname = 'profslq';  // Il nome del database
 $user = 'profslq_user';  // Nome utente del database
 $password = 'MyafAY0wufx7p2gqyiqevR7EddKmxBMu';  // La password del database
+
+// Inizializzazione delle variabili
+$valutazione_inviata = false; // Variabile per verificare se la valutazione è stata inviata
+$valutazione_successo = ''; // Messaggio di successo
 
 // Connessione al database
 $conn = pg_connect("host=$host port=$port dbname=$dbname user=$user password=$password");
@@ -14,72 +22,76 @@ if (!$conn) {
     exit;
 }
 
+// Gestione dell'invio della valutazione
+if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['rating']) && isset($_POST['professionista_id'])) {
+    // Gestisci l'invio della valutazione
+    $rating = $_POST['rating'];
+    $professionista_id = $_POST['professionista_id'];
 
-if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    if (isset($_POST['rating']) && isset($_POST['professionista_id'])) {
-        $rating = $_POST['rating'];
-        $professionista_id = $_POST['professionista_id'];
+    // Esegui la query per inserire la valutazione nel database
+    $query = "INSERT INTO valutazioni (professionista_id, valutazione) VALUES ($1, $2)";
+    $result = pg_query_params($conn, $query, array($professionista_id, $rating));
 
-        // Esegui la query per inserire la valutazione nel database
-        $query = "INSERT INTO valutazioni (professionista_id, valutazione) VALUES ($1, $2)";
-        $result = pg_query_params($conn, $query, array($professionista_id, $rating));
-
-        if ($result) {
-            // Setta le variabili per il messaggio di successo
-            $commento_inviato = true;
-            $commento_successo = "Valutazione inviata con successo!";
-        } else {
-            // In caso di errore
-            $commento_inviato = true;
-            $commento_successo = "Si è verificato un errore nell'invio della valutazione.";
-        }
+    if ($result) {
+        // Imposta la variabile per il messaggio di successo
+        $valutazione_inviata = true;
+        $valutazione_successo = "Valutazione inviata con successo!";
+    } else {
+        // In caso di errore
+        $valutazione_inviata = true;
+        $valutazione_successo = "Si è verificato un errore nell'invio della valutazione.";
     }
 }
 
-
-
-// Variabili per la ricerca
+// Gestione della ricerca solo se non è stato inviato un commento
+if ($_SERVER['REQUEST_METHOD'] == 'GET' && !$valutazione_inviata) {
+    // Variabili per la ricerca
+    // Variabili per la ricerca
 $professione = $_GET['professione'] ?? '';
 $citta = $_GET['citta'] ?? '';
+$no_results_message = false;  // Variabile per determinare se mostrare il messaggio "Non ci sono risultati"
 
-// Solo eseguire la ricerca se non è stato inviato un commento
-if (!$commento_inviato) {
-    // Controlla se almeno uno dei campi è stato compilato
+// Gestione della ricerca solo se non è stato inviato un commento
+if ($_SERVER['REQUEST_METHOD'] == 'GET' && !$valutazione_inviata) {
+    // Variabili per la ricerca
     if (empty($professione) && empty($citta)) {
         $errors[] = "Per favore, compila almeno uno dei campi (Professione o Città).";
     }
 
-    // Se non ci sono errori, esegui la ricerca
+    // Esegui la ricerca solo se non ci sono errori
     if (empty($errors)) {
-        // Crea la query di ricerca
-        $query = "SELECT * FROM persone WHERE 1=1";  // 1=1 è una condizione sempre vera, per facilitare l'aggiunta dinamica di altre condizioni
-        $params = []; // Array per i parametri della query
+        $query = "SELECT * FROM persone WHERE 1=1";
+        $params = [];
 
-        // Aggiungi la condizione per la professione, solo se è stata specificata
         if ($professione) {
             $query .= " AND professione ILIKE $1";
             $params[] = '%' . $professione . '%';
         }
 
-        // Aggiungi la condizione per la città, solo se è stata specificata
         if ($citta) {
-            $query .= " AND citta ILIKE $" . (count($params) + 1); // Incremente il numero del parametro
+            $query .= " AND citta ILIKE $" . (count($params) + 1);
             $params[] = '%' . $citta . '%';
         }
 
-        // Esegui la query con i parametri solo se ci sono campi compilati
+        // Esegui la query
         $result = pg_query_params($conn, $query, $params);
         if (!$result) {
             echo "Errore nella query: " . pg_last_error($conn);
             exit;
         }
+
+        // Se non ci sono risultati, imposta il messaggio per la ricerca
+        if (pg_num_rows($result) == 0) {
+            $no_results_message = true;
+        }
     }
+}
+
 }
 ?>
 
 <!DOCTYPE html>
 <html lang="it">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -128,83 +140,74 @@ if (!$commento_inviato) {
     <section class="results-section">
         <div class="search-results">
             <!-- Messaggio di valutazione inviata con successo -->
-            <?php if ($commento_inviato): ?>
+            <?php if ($valutazione_inviata): ?>
                 <div class="success-message">
-                    <p><?php echo $commento_successo; ?></p>
+                    <p><?php echo $valutazione_successo; ?></p>
                 </div>
             <?php endif; ?>
 
-            <!-- Visualizzazione dei risultati della ricerca, se non è stato inviato un commento -->
-            <?php if (!$commento_inviato): ?>
-                <?php if (isset($result) && pg_num_rows($result) > 0): ?>
-                    <?php while ($row = pg_fetch_assoc($result)): ?>
-                        <div class="result-card">
-                            <!-- Foto del professionista -->
-                            <?php
-                            $image_path = "profili/{$row['id']}.jpg";
-                            if (file_exists($image_path)) {
-                                echo "<div class='img-container'>";
-                                echo "<img src='$image_path' alt='Immagine di {$row['nome']} {$row['cognome']}' class='img-professionista'>";
-                                echo "</div>";
-                            } else {
-                                echo "<div class='img-container'>";
-                                echo "<img src='profili/default.jpg' alt='Immagine di default' class='img-professionista'>";
-                                echo "</div>";
-                            }
-                            ?>
+          <!-- Visualizzazione dei risultati della ricerca -->
+<?php if (isset($result) && pg_num_rows($result) > 0): ?>
+    <?php while ($row = pg_fetch_assoc($result)): ?>
+        <div class="result-card">
+            <!-- Foto del professionista -->
+            <?php
+            $image_path = "profili/{$row['id']}.jpg";
+            if (file_exists($image_path)) {
+                echo "<div class='img-container'>";
+                echo "<img src='$image_path' alt='Immagine di {$row['nome']} {$row['cognome']}' class='img-professionista'>";
+                echo "</div>";
+            } else {
+                echo "<div class='img-container'>";
+                echo "<img src='profili/default.jpg' alt='Immagine di default' class='img-professionista'>";
+                echo "</div>";
+            }
+            ?>
 
-                            <!-- Dettagli professionista -->
-                            <div class="details-container">
-                                <h3><?php echo htmlspecialchars($row['nome']) . ' ' . htmlspecialchars($row['cognome']); ?></h3>
-                                <p><strong>Professione:</strong> <?php echo htmlspecialchars($row['professione']); ?></p>
-                                <p><strong>Città:</strong> <?php echo htmlspecialchars($row['citta']); ?></p>
-                                <p><strong>Azienda:</strong> <?php echo htmlspecialchars($row['nome_azienda']); ?></p>
-                                <p><strong>Email:</strong> <?php echo htmlspecialchars($row['email']); ?></p>
-                                <p><strong>Indirizzo:</strong> <?php echo htmlspecialchars($row['via']); ?></p>
-                            </div>
+            <!-- Dettagli professionista -->
+            <div class="details-container">
+                <h3><?php echo htmlspecialchars($row['nome']) . ' ' . htmlspecialchars($row['cognome']); ?></h3>
+                <p><strong>Professione:</strong> <?php echo htmlspecialchars($row['professione']); ?></p>
+                <p><strong>Città:</strong> <?php echo htmlspecialchars($row['citta']); ?></p>
+                <p><strong>Azienda:</strong> <?php echo htmlspecialchars($row['nome_azienda']); ?></p>
+                <p><strong>Email:</strong> <?php echo htmlspecialchars($row['email']); ?></p>
+                <p><strong>Indirizzo:</strong> <?php echo htmlspecialchars($row['via']); ?></p>
+            </div>
 
-                            <section class="search-comment-section">
-                                <div class="search-comment-container">
-                                    <form action="search.php" method="POST" class="comment-form">
-                                        <input type="hidden" name="professionista_id" value="<?php echo $row['id']; ?>">
+            <!-- Sezione commenti -->
+            <section class="search-comment-section">
+                            <div class="search-comment-container">
+                                <form action="search.php" method="POST" class="comment-form">
+                                    <input type="hidden" name="professionista_id" value="<?php echo $row['id']; ?>">
 
-                                        <div class="input-group">
-                                            <label for="valutazione">Valuta il professionista:</label>
-                                            <div class="star-rating">
-                                                <input type="radio" id="star1" name="rating" value="5"><label for="star1">★</label>
-                                                <input type="radio" id="star2" name="rating" value="4"><label for="star2">★</label>
-                                                <input type="radio" id="star3" name="rating" value="3"><label for="star3">★</label>
-                                                <input type="radio" id="star4" name="rating" value="2"><label for="star4">★</label>
-                                                <input type="radio" id="star5" name="rating" value="1"><label for="star5">★</label>
-                                            </div>
-
-                                        </div>
-
-
-
-                                </div>
-
-                                <!-- Bottone per inviare la valutazione -->
-                                <button type="submit" class="btn-submit-comment">Invia Valutazione</button>
-                                </form>
-                        </div>
-    </section>
-
-
-
-
-
-
+                                    <div class="star-rating">
+            <input type="radio" id="star1" name="rating" value="5"><label for="star1">★</label>
+            <input type="radio" id="star2" name="rating" value="4"><label for="star2">★</label>
+            <input type="radio" id="star3" name="rating" value="3"><label for="star3">★</label>
+            <input type="radio" id="star4" name="rating" value="2"><label for="star4">★</label>
+            <input type="radio" id="star5" name="rating" value="1"><label for="star5">★</label>
+        </div>
     </div>
-<?php endwhile; ?>
+
+    <!-- Bottone per inviare la valutazione -->
+    <button type="submit" class="btn-submit-comment">Invia Valutazione</button>
+</form>
+                </div>
+            </section>
+        </div>
+    <?php endwhile; ?>
 <?php else: ?>
-    <div class="no-results">
+    <?php if ($no_results_message): ?>
         <p>Non ci sono risultati per la tua ricerca.</p>
-    </div>
+    <?php endif; ?>
 <?php endif; ?>
-<?php endif; ?>
-</div>
-</section>
+
+
+        </div>
+    </section>
+</body>
+</html>
+
 
 
 
