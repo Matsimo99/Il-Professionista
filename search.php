@@ -1,10 +1,10 @@
 <?php
-// Parametri di connessione al database PostgreSQL
-$host = 'localhost';
-$port = '5432';
-$dbname = 'prova_db';  // Usa il database 'prova_db'
-$user = 'postgres';
-$password = 'ciao';
+// Parametri di connessione al database PostgreSQL di Render
+$host = 'dpg-curf2orv2p9s73ahh69g-a.oregon-postgres.render.com';
+$port = '5432';  // La porta di default di PostgreSQL
+$dbname = 'profslq';  // Il nome del database
+$user = 'profslq_user';  // Nome utente del database
+$password = 'MyafAY0wufx7p2gqyiqevR7EddKmxBMu';  // La password del database
 
 // Connessione al database
 $conn = pg_connect("host=$host port=$port dbname=$dbname user=$user password=$password");
