@@ -36,13 +36,14 @@ body {
     max-width: 125px;
     height: auto;
     margin-top: 2.0mm;
+
 }
 
 /* Menu di navigazione orizzontale */
 .navbar-links {
     list-style-type: none;
-    display: flex;
-    gap: 20px;
+    display: flex; /* Cambia da block a flex per disporre gli elementi orizzontalmente */
+    gap: 20px; /* Aggiungi spazio tra i collegamenti */
 }
 
 .navbar-links li {
@@ -58,62 +59,8 @@ body {
 }
 
 .navbar-links a:hover {
-    color: #ffc107;
+    color: #ffc107; /* Colore giallo quando si passa sopra il link */
 }
-
-/* Icona hamburger (per dispositivi mobili) */
-.hamburger {
-    display: none;
-    flex-direction: column;
-    gap: 5px;
-    cursor: pointer;
-}
-
-.hamburger div {
-    width: 30px;
-    height: 4px;
-    background-color: white;
-}
-
-/* Dropdown Menu (per dispositivi mobili) */
-.navbar-links-mobile {
-    display: none;
-    list-style-type: none;
-    flex-direction: column;
-    gap: 10px;
-    background-color: #007bff;
-    position: absolute;
-    top: 100%;
-    left: 0;
-    width: 100%;
-    padding: 10px 0;
-}
-
-.navbar-links-mobile li {
-    text-align: center;
-}
-
-.navbar-links-mobile a {
-    color: white;
-    font-size: 18px;
-    padding: 15px;
-    text-decoration: none;
-    display: block;
-}
-
-/* Media query per schermi stretti (mobile) */
-@media (max-width: 768px) {
-    .navbar-links {
-        display: none; /* Nasconde il menu orizzontale */
-    }
-    .hamburger {
-        display: flex; /* Mostra l'icona hamburger */
-    }
-    .navbar-links-mobile.active {
-        display: flex; /* Mostra il menu a tendina quando attivo */
-    }
-}
-
 
 .stelle-valutazione {
     display: flex;
@@ -184,13 +131,7 @@ body {
     .btn-search {
         width: 100%;  /* Imposta il bottone al 100% della larghezza */
     }
-
-    /* Spostare la scritta sotto il titolo "Trova il tuo professionista" su schermi più piccoli */
-    .subheading {
-        margin-top: 10px;  /* Aggiungi margine superiore per spostarla sotto il titolo */
-    }
 }
-
 /* Sezione dei risultati della ricerca */
 .search-container {
     display: flex;

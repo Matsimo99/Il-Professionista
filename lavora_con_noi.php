@@ -10,29 +10,13 @@
 </head>
 
 <body>
-    <!-- Barra di navigazione fissa -->
+    <!-- Barra di navigazione -->
     <header class="navbar">
         <div class="logo">
             <img src="logo1.jpg" alt="Logo Azienda" width="150" height="150">
         </div>
         <nav>
-            <!-- Icona hamburger per dispositivi mobili -->
-            <div class="hamburger" id="hamburger-icon">
-                <div></div>
-                <div></div>
-                <div></div>
-            </div>
-
-            <!-- Menu di navigazione -->
             <ul class="navbar-links">
-                <li><a href="index.php">Home</a></li>
-                <li><a href="chi_siamo.php">Chi Siamo</a></li>
-                <li><a href="trattamento_dati.php">Trattamento dei Dati</a></li>
-                <li><a href="lavora_con_noi.php">Lavora con noi</a></li>
-            </ul>
-
-            <!-- Menu a tendina per dispositivi mobili -->
-            <ul class="navbar-links-mobile" id="navbar-mobile">
                 <li><a href="index.php">Home</a></li>
                 <li><a href="chi_siamo.php">Chi Siamo</a></li>
                 <li><a href="trattamento_dati.php">Trattamento dei Dati</a></li>
@@ -40,16 +24,6 @@
             </ul>
         </nav>
     </header>
-
-    <script>
-        // Funzione per mostrare/nascondere il menu a tendina
-        const hamburgerIcon = document.getElementById("hamburger-icon");
-        const navbarMobile = document.getElementById("navbar-mobile");
-
-        hamburgerIcon.addEventListener("click", () => {
-            navbarMobile.classList.toggle("active");
-        });
-    </script>
 
     <!-- Sezione Lavora con Noi -->
     <section class="lavora-con-noi">
