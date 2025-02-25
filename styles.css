@@ -161,13 +161,14 @@ body {
         flex-direction: column;  /* Riorganizza gli elementi in una colonna su schermi piccoli */
         gap: 15px;               /* Aggiungi spazio maggiore tra gli elementi */
     }
+
     .search-section {
         text-align: center;  /* Assicura che il testo sia centrato anche su schermi piccoli */
     }
 
+    /* Nascondere la scritta "Cerca tra i migliori professionisti" su schermi piccoli */
     .subheading {
-        margin-top: 10px; /* Aggiungi margine superiore per spostarla sotto il titolo */
-        font-size: 14px;  /* Puoi aggiungere un font-size più piccolo per schermi piccoli, se desideri */
+        display: none; /* La scritta sparisce sui dispositivi mobili */
     }
 
     .input-group input {
@@ -182,6 +183,7 @@ body {
     /* Spostare la scritta sotto il titolo "Trova il tuo professionista" su schermi più piccoli */
     .subheading {
         margin-top: 10px;  /* Aggiungi margine superiore per spostarla sotto il titolo */
+        font-size: 14px;  /* Puoi aggiungere un font-size più piccolo per schermi piccoli, se desideri */
     }
 }
 
