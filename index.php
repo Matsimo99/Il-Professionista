@@ -39,18 +39,30 @@ if (!$result_professionisti) {
 <body>
     <!-- Barra di navigazione fissa -->
     <header class="navbar">
-        <div class="logo">
-            <img src="logo1.jpg" alt="Logo Azienda" width="150" height="150">
+    <div class="logo">
+        <img src="logo1.jpg" alt="Logo Azienda" width="150" height="150">
+    </div>
+    <nav>
+        <ul class="navbar-links">
+            <li><a href="index.php">Home</a></li>
+            <li><a href="chi_siamo.php">Chi Siamo</a></li>
+            <li><a href="trattamento_dati.php">Trattamento dei Dati</a></li>
+            <li><a href="lavora_con_noi.php">Lavora con noi</a></li>
+        </ul>
+        <div class="menu-toggle" onclick="toggleMenu()">
+            <span class="bar"></span>
+            <span class="bar"></span>
+            <span class="bar"></span>
         </div>
-        <nav>
-            <ul class="navbar-links">
-                <li><a href="index.php">Home</a></li>
-                <li><a href="chi_siamo.php">Chi Siamo</a></li>
-                <li><a href="trattamento_dati.php">Trattamento dei Dati</a></li>
-                <li><a href="lavora_con_noi.php">Lavora con noi</a></li>
-            </ul>
-        </nav>
-    </header>
+    </nav>
+</header>
+<script>
+    function toggleMenu() {
+        const menu = document.querySelector('.navbar-links');
+        menu.classList.toggle('active');
+    }
+</script>
+
 
     <!-- Sezione di ricerca orizzontale -->
     <section class="search-section">

@@ -36,14 +36,13 @@ body {
     max-width: 125px;
     height: auto;
     margin-top: 2.0mm;
-
 }
 
 /* Menu di navigazione orizzontale */
 .navbar-links {
     list-style-type: none;
-    display: flex; /* Cambia da block a flex per disporre gli elementi orizzontalmente */
-    gap: 20px; /* Aggiungi spazio tra i collegamenti */
+    display: flex;
+    gap: 20px;
 }
 
 .navbar-links li {
@@ -60,6 +59,43 @@ body {
 
 .navbar-links a:hover {
     color: #ffc107; /* Colore giallo quando si passa sopra il link */
+}
+
+/* Menu a tendina per dispositivi mobili */
+.menu-toggle {
+    display: none; /* Nascondi per default */
+    flex-direction: column;
+    cursor: pointer;
+    gap: 5px;
+}
+
+.menu-toggle .bar {
+    width: 25px;
+    height: 3px;
+    background-color: white;
+}
+
+/* Mostra il bottone hamburger solo su schermi piccoli */
+@media (max-width: 768px) {
+    .navbar-links {
+        display: none; /* Nascondi il menu principale */
+        width: 100%;
+        background-color: #007bff;
+        position: absolute;
+        top: 100px;
+        left: 0;
+        flex-direction: column;
+        align-items: center;
+        gap: 10px;
+    }
+
+    .navbar-links.active {
+        display: flex; /* Mostra il menu quando il bottone è cliccato */
+    }
+
+    .menu-toggle {
+        display: flex; /* Mostra il bottone hamburger */
+    }
 }
 
 .stelle-valutazione {
