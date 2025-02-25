@@ -111,8 +111,6 @@ body {
 }
 
 
-
-
 /* Barra di ricerca orizzontale */
 .search-section {
     margin-top: 150px;
@@ -136,6 +134,11 @@ body {
     border-radius: 4px;
     width: 250px;
     max-width: 100%;  /* Aggiunto per fare in modo che l'input non superi la larghezza del contenitore */
+}
+
+.input-group label {
+    font-weight: bold; /* Aggiunto per rendere i label in grassetto */
+    color: #333;  /* Colore più scuro per il testo */
 }
 
 .btn-search {
@@ -167,7 +170,21 @@ body {
     .btn-search {
         width: 100%;  /* Imposta il bottone al 100% della larghezza */
     }
+
+    /* Spostare la scritta sotto il titolo "Trova il tuo professionista" su schermi più piccoli */
+    .subheading {
+        margin-top: 10px;  /* Aggiungi margine superiore per spostarla sotto il titolo */
+        font-size: 14px;  /* Riduci leggermente la dimensione del testo */
+    }
+
+    /* Cambia il margine del titolo e del paragrafo su schermi piccoli */
+    .section-title {
+        margin-bottom: 10px;
+    }
 }
+
+
+
 /* Sezione dei risultati della ricerca */
 .search-container {
     display: flex;
