@@ -10,7 +10,7 @@
 </head>
 
 <body>
-    <!-- Barra di navigazione -->
+    <!-- Barra di navigazione fissa -->
     <header class="navbar">
         <div class="logo">
             <img src="logo1.jpg" alt="Logo Azienda" width="150" height="150">
@@ -22,8 +22,19 @@
                 <li><a href="trattamento_dati.php">Trattamento dei Dati</a></li>
                 <li><a href="lavora_con_noi.php">Lavora con noi</a></li>
             </ul>
+            <div class="menu-toggle" onclick="toggleMenu()">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </div>
         </nav>
     </header>
+    <script>
+        function toggleMenu() {
+            const menu = document.querySelector('.navbar-links');
+            menu.classList.toggle('active');
+        }
+    </script>
 
     <!-- Sezione Lavora con Noi -->
     <section class="lavora-con-noi">
@@ -69,7 +80,7 @@
         <div class="footer-container">
             <!-- Links principali -->
             <div class="footer-links">
-            <ul>
+                <ul>
                     <li><a href="#">Privacy</a></li>
                     <li><a href="#">Informativa Cookie</a></li>
                     <li><a href="#">Termini e Condizioni</a></li>

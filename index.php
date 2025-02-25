@@ -39,29 +39,29 @@ if (!$result_professionisti) {
 <body>
     <!-- Barra di navigazione fissa -->
     <header class="navbar">
-    <div class="logo">
-        <img src="logo1.jpg" alt="Logo Azienda" width="150" height="150">
-    </div>
-    <nav>
-        <ul class="navbar-links">
-            <li><a href="index.php">Home</a></li>
-            <li><a href="chi_siamo.php">Chi Siamo</a></li>
-            <li><a href="trattamento_dati.php">Trattamento dei Dati</a></li>
-            <li><a href="lavora_con_noi.php">Lavora con noi</a></li>
-        </ul>
-        <div class="menu-toggle" onclick="toggleMenu()">
-            <span class="bar"></span>
-            <span class="bar"></span>
-            <span class="bar"></span>
+        <div class="logo">
+            <img src="logo1.jpg" alt="Logo Azienda" width="150" height="150">
         </div>
-    </nav>
-</header>
-<script>
-    function toggleMenu() {
-        const menu = document.querySelector('.navbar-links');
-        menu.classList.toggle('active');
-    }
-</script>
+        <nav>
+            <ul class="navbar-links">
+                <li><a href="index.php">Home</a></li>
+                <li><a href="chi_siamo.php">Chi Siamo</a></li>
+                <li><a href="trattamento_dati.php">Trattamento dei Dati</a></li>
+                <li><a href="lavora_con_noi.php">Lavora con noi</a></li>
+            </ul>
+            <div class="menu-toggle" onclick="toggleMenu()">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </div>
+        </nav>
+    </header>
+    <script>
+        function toggleMenu() {
+            const menu = document.querySelector('.navbar-links');
+            menu.classList.toggle('active');
+        }
+    </script>
 
 
     <!-- Sezione di ricerca orizzontale -->
@@ -86,9 +86,9 @@ if (!$result_professionisti) {
     </section>
 
     <section class="comments-list">
-    <?php
-    // Recuperiamo i professionisti con valutazioni
-    $query_professionisti = "
+        <?php
+        // Recuperiamo i professionisti con valutazioni
+        $query_professionisti = "
     SELECT p.id, p.nome, p.cognome, p.professione  -- Aggiungi la professione
     FROM persone p
     WHERE EXISTS (
@@ -97,78 +97,78 @@ if (!$result_professionisti) {
     ORDER BY p.id DESC
     LIMIT 6;
     ";
-    $result_professionisti = pg_query($conn, $query_professionisti);
+        $result_professionisti = pg_query($conn, $query_professionisti);
 
-    while ($row_professionista = pg_fetch_assoc($result_professionisti)) {
-        $professionista_id = $row_professionista['id'];
-        $nome_professionista = $row_professionista['nome'] . ' ' . $row_professionista['cognome'];
-        $professione = $row_professionista['professione'];  // Aggiungi professione
+        while ($row_professionista = pg_fetch_assoc($result_professionisti)) {
+            $professionista_id = $row_professionista['id'];
+            $nome_professionista = $row_professionista['nome'] . ' ' . $row_professionista['cognome'];
+            $professione = $row_professionista['professione'];  // Aggiungi professione
 
-        // Query per recuperare la media delle valutazioni
-        $query_valutazioni_media = "
+            // Query per recuperare la media delle valutazioni
+            $query_valutazioni_media = "
         SELECT AVG(v.valutazione) AS media_valutazione
         FROM valutazioni v
         WHERE v.professionista_id = $1
         ";
-        $result_valutazioni_media = pg_query_params($conn, $query_valutazioni_media, array($professionista_id));
+            $result_valutazioni_media = pg_query_params($conn, $query_valutazioni_media, array($professionista_id));
 
-        // Verifica se ci sono valutazioni per il professionista
-        if ($result_valutazioni_media && pg_num_rows($result_valutazioni_media) > 0) {
-            $media_valutazione = pg_fetch_assoc($result_valutazioni_media)['media_valutazione'];
-            $stelle = round($media_valutazione);  // Arrotonda al numero intero più vicino
-            if ($stelle < 1) $stelle = 1;  // Assicurati che la valutazione non scenda sotto 1
-            if ($stelle > 5) $stelle = 5;  // Assicurati che la valutazione non superi 5
+            // Verifica se ci sono valutazioni per il professionista
+            if ($result_valutazioni_media && pg_num_rows($result_valutazioni_media) > 0) {
+                $media_valutazione = pg_fetch_assoc($result_valutazioni_media)['media_valutazione'];
+                $stelle = round($media_valutazione);  // Arrotonda al numero intero più vicino
+                if ($stelle < 1) $stelle = 1;  // Assicurati che la valutazione non scenda sotto 1
+                if ($stelle > 5) $stelle = 5;  // Assicurati che la valutazione non superi 5
 
-            echo "<div class='professionista-commenti'>";
-            echo "<h4 class='comment-title'>$nome_professionista</h4>";
+                echo "<div class='professionista-commenti'>";
+                echo "<h4 class='comment-title'>$nome_professionista</h4>";
 
-            // Aggiungi l'immagine del profilo
-            $image_path = "profili/{$professionista_id}.jpg";
-            if (file_exists($image_path)) {
-                echo "<img src='$image_path' alt='Immagine di $nome_professionista' class='comment-img'>";
-            } else {
-                echo "<img src='profili/default.jpg' alt='Immagine di default' class='comment-img'>";
-            }
-
-            // Visualizza la professione
-            if (!empty($professione)) {
-                echo "<p class='professione'>$professione</p>";  // Mostra la professione
-            }
-
-            // Stelle di valutazione
-            echo "<div class='stelle-valutazione'>";
-            for ($i = 1; $i <= 5; $i++) {
-                if ($i <= $stelle) {
-                    // Stelle piene
-                    echo "<label class='full' for='star$i'>&#9733;</label>"; // Stella gialla
+                // Aggiungi l'immagine del profilo
+                $image_path = "profili/{$professionista_id}.jpg";
+                if (file_exists($image_path)) {
+                    echo "<img src='$image_path' alt='Immagine di $nome_professionista' class='comment-img'>";
+                } else {
+                    echo "<img src='profili/default.jpg' alt='Immagine di default' class='comment-img'>";
                 }
-            }
-            echo "</div>"; // Fine delle stelle
 
-            // Query per recuperare tutte le recensioni
-            $query_valutazioni = "
+                // Visualizza la professione
+                if (!empty($professione)) {
+                    echo "<p class='professione'>$professione</p>";  // Mostra la professione
+                }
+
+                // Stelle di valutazione
+                echo "<div class='stelle-valutazione'>";
+                for ($i = 1; $i <= 5; $i++) {
+                    if ($i <= $stelle) {
+                        // Stelle piene
+                        echo "<label class='full' for='star$i'>&#9733;</label>"; // Stella gialla
+                    }
+                }
+                echo "</div>"; // Fine delle stelle
+
+                // Query per recuperare tutte le recensioni
+                $query_valutazioni = "
             SELECT v.punteggio, v.data
             FROM valutazioni v
             WHERE v.professionista_id = $1
             ORDER BY v.data DESC
             ";
-            $result_valutazioni = pg_query_params($conn, $query_valutazioni, array($professionista_id));
+                $result_valutazioni = pg_query_params($conn, $query_valutazioni, array($professionista_id));
 
-            // Visualizza le recensioni singole
-            if ($result_valutazioni && pg_num_rows($result_valutazioni) > 0) {
-                echo "<h5>Valutazioni:</h5>";
-                while ($valutazione = pg_fetch_assoc($result_valutazioni)) {
-                    echo "<div class='search-comment-box'>";
-                    echo "<p><strong>Valutazione:</strong> " . htmlspecialchars($valutazione['punteggio']) . "/5</p>";
-                    echo "<p><em>Data: " . htmlspecialchars($valutazione['data']) . "</em></p>";
-                    echo "</div>";
+                // Visualizza le recensioni singole
+                if ($result_valutazioni && pg_num_rows($result_valutazioni) > 0) {
+                    echo "<h5>Valutazioni:</h5>";
+                    while ($valutazione = pg_fetch_assoc($result_valutazioni)) {
+                        echo "<div class='search-comment-box'>";
+                        echo "<p><strong>Valutazione:</strong> " . htmlspecialchars($valutazione['punteggio']) . "/5</p>";
+                        echo "<p><em>Data: " . htmlspecialchars($valutazione['data']) . "</em></p>";
+                        echo "</div>";
+                    }
                 }
+                echo "</div>"; // Fine del professionista
             }
-            echo "</div>"; // Fine del professionista
         }
-    }
-    ?>
-</section>
+        ?>
+    </section>
 
 
 
@@ -178,7 +178,7 @@ if (!$result_professionisti) {
         <div class="footer-container">
             <!-- Links principali -->
             <div class="footer-links">
-            <ul>
+                <ul>
                     <li><a href="#">Privacy</a></li>
                     <li><a href="#">Informativa Cookie</a></li>
                     <li><a href="#">Termini e Condizioni</a></li>

@@ -10,7 +10,7 @@
 </head>
 
 <body>
-    <!-- Barra di navigazione -->
+    <!-- Barra di navigazione fissa -->
     <header class="navbar">
         <div class="logo">
             <img src="logo1.jpg" alt="Logo Azienda" width="150" height="150">
@@ -22,8 +22,21 @@
                 <li><a href="trattamento_dati.php">Trattamento dei Dati</a></li>
                 <li><a href="lavora_con_noi.php">Lavora con noi</a></li>
             </ul>
+            <div class="menu-toggle" onclick="toggleMenu()">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </div>
         </nav>
     </header>
+    <script>
+        function toggleMenu() {
+            const menu = document.querySelector('.navbar-links');
+            menu.classList.toggle('active');
+        }
+    </script>
+
+
     <!-- Sezione "Chi Siamo" -->
     <section class="about-section">
         <div class="data-container">
@@ -56,25 +69,25 @@
             </div>
 
             <!-- Social media -->
-<div class="footer-social">
-    <ul>
-        <li>
-            <a href="https://www.facebook.com/profile.php?id=61570141079818">
-                <img src="fb.png" alt="Facebook" style="width: 30px; height: 30px;">
-            </a>
-        </li>
-        <li>
-            <a href="https://www.instagram.com/ilprofessionista2.0?igsh=d2swbGl0OWhoMXhs">
-                <img src="in.webp" alt="Instagram" style="width: 30px; height: 30px;">
-            </a>
-        </li>
-        <li>
-            <a href="">
-                <img src="what.png" alt="WhatsApp" style="width: 30px; height: 30px;">
-            </a>
-        </li>
-    </ul>
-</div>
+            <div class="footer-social">
+                <ul>
+                    <li>
+                        <a href="https://www.facebook.com/profile.php?id=61570141079818">
+                            <img src="fb.png" alt="Facebook" style="width: 30px; height: 30px;">
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://www.instagram.com/ilprofessionista2.0?igsh=d2swbGl0OWhoMXhs">
+                            <img src="in.webp" alt="Instagram" style="width: 30px; height: 30px;">
+                        </a>
+                    </li>
+                    <li>
+                        <a href="">
+                            <img src="what.png" alt="WhatsApp" style="width: 30px; height: 30px;">
+                        </a>
+                    </li>
+                </ul>
+            </div>
 
 
             <!-- Copyright -->

@@ -47,51 +47,51 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['rating']) && isset($_P
 if ($_SERVER['REQUEST_METHOD'] == 'GET' && !$valutazione_inviata) {
     // Variabili per la ricerca
     // Variabili per la ricerca
-$professione = $_GET['professione'] ?? '';
-$citta = $_GET['citta'] ?? '';
-$no_results_message = false;  // Variabile per determinare se mostrare il messaggio "Non ci sono risultati"
+    $professione = $_GET['professione'] ?? '';
+    $citta = $_GET['citta'] ?? '';
+    $no_results_message = false;  // Variabile per determinare se mostrare il messaggio "Non ci sono risultati"
 
-// Gestione della ricerca solo se non è stato inviato un commento
-if ($_SERVER['REQUEST_METHOD'] == 'GET' && !$valutazione_inviata) {
-    // Variabili per la ricerca
-    if (empty($professione) && empty($citta)) {
-        $errors[] = "Per favore, compila almeno uno dei campi (Professione o Città).";
+    // Gestione della ricerca solo se non è stato inviato un commento
+    if ($_SERVER['REQUEST_METHOD'] == 'GET' && !$valutazione_inviata) {
+        // Variabili per la ricerca
+        if (empty($professione) && empty($citta)) {
+            $errors[] = "Per favore, compila almeno uno dei campi (Professione o Città).";
+        }
+
+        // Esegui la ricerca solo se non ci sono errori
+        if (empty($errors)) {
+            $query = "SELECT * FROM persone WHERE 1=1";
+            $params = [];
+
+            if ($professione) {
+                $query .= " AND professione ILIKE $1";
+                $params[] = '%' . $professione . '%';
+            }
+
+            if ($citta) {
+                $query .= " AND citta ILIKE $" . (count($params) + 1);
+                $params[] = '%' . $citta . '%';
+            }
+
+            // Esegui la query
+            $result = pg_query_params($conn, $query, $params);
+            if (!$result) {
+                echo "Errore nella query: " . pg_last_error($conn);
+                exit;
+            }
+
+            // Se non ci sono risultati, imposta il messaggio per la ricerca
+            if (pg_num_rows($result) == 0) {
+                $no_results_message = true;
+            }
+        }
     }
-
-    // Esegui la ricerca solo se non ci sono errori
-    if (empty($errors)) {
-        $query = "SELECT * FROM persone WHERE 1=1";
-        $params = [];
-
-        if ($professione) {
-            $query .= " AND professione ILIKE $1";
-            $params[] = '%' . $professione . '%';
-        }
-
-        if ($citta) {
-            $query .= " AND citta ILIKE $" . (count($params) + 1);
-            $params[] = '%' . $citta . '%';
-        }
-
-        // Esegui la query
-        $result = pg_query_params($conn, $query, $params);
-        if (!$result) {
-            echo "Errore nella query: " . pg_last_error($conn);
-            exit;
-        }
-
-        // Se non ci sono risultati, imposta il messaggio per la ricerca
-        if (pg_num_rows($result) == 0) {
-            $no_results_message = true;
-        }
-    }
-}
-
 }
 ?>
 
 <!DOCTYPE html>
 <html lang="it">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -113,8 +113,19 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET' && !$valutazione_inviata) {
                 <li><a href="trattamento_dati.php">Trattamento dei Dati</a></li>
                 <li><a href="lavora_con_noi.php">Lavora con noi</a></li>
             </ul>
+            <div class="menu-toggle" onclick="toggleMenu()">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </div>
         </nav>
     </header>
+    <script>
+        function toggleMenu() {
+            const menu = document.querySelector('.navbar-links');
+            menu.classList.toggle('active');
+        }
+    </script>
 
     <!-- Sezione di ricerca -->
     <section class="search-section">
@@ -146,56 +157,56 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET' && !$valutazione_inviata) {
                 </div>
             <?php endif; ?>
 
-          <!-- Visualizzazione dei risultati della ricerca -->
-<?php if (isset($result) && pg_num_rows($result) > 0): ?>
-    <?php while ($row = pg_fetch_assoc($result)): ?>
-        <div class="result-card">
-            <!-- Foto del professionista -->
-            <?php
-            $image_path = "profili/{$row['id']}.jpg";
-            if (file_exists($image_path)) {
-                echo "<div class='img-container'>";
-                echo "<img src='$image_path' alt='Immagine di {$row['nome']} {$row['cognome']}' class='img-professionista'>";
-                echo "</div>";
-            } else {
-                echo "<div class='img-container'>";
-                echo "<img src='profili/default.jpg' alt='Immagine di default' class='img-professionista'>";
-                echo "</div>";
-            }
-            ?>
+            <!-- Visualizzazione dei risultati della ricerca -->
+            <?php if (isset($result) && pg_num_rows($result) > 0): ?>
+                <?php while ($row = pg_fetch_assoc($result)): ?>
+                    <div class="result-card">
+                        <!-- Foto del professionista -->
+                        <?php
+                        $image_path = "profili/{$row['id']}.jpg";
+                        if (file_exists($image_path)) {
+                            echo "<div class='img-container'>";
+                            echo "<img src='$image_path' alt='Immagine di {$row['nome']} {$row['cognome']}' class='img-professionista'>";
+                            echo "</div>";
+                        } else {
+                            echo "<div class='img-container'>";
+                            echo "<img src='profili/default.jpg' alt='Immagine di default' class='img-professionista'>";
+                            echo "</div>";
+                        }
+                        ?>
 
-            <!-- Dettagli professionista -->
-            <div class="details-container">
-                <h3><?php echo htmlspecialchars($row['nome']) . ' ' . htmlspecialchars($row['cognome']); ?></h3>
-                <p><strong>Professione:</strong> <?php echo htmlspecialchars($row['professione']); ?></p>
-                <p><strong>Città:</strong> <?php echo htmlspecialchars($row['citta']); ?></p>
-                <p><strong>Azienda:</strong> <?php echo htmlspecialchars($row['nome_azienda']); ?></p>
-                <p><strong>Email:</strong> <?php echo htmlspecialchars($row['email']); ?></p>
-                <p><strong>Indirizzo:</strong> <?php echo htmlspecialchars($row['via']); ?></p>
-            </div>
+                        <!-- Dettagli professionista -->
+                        <div class="details-container">
+                            <h3><?php echo htmlspecialchars($row['nome']) . ' ' . htmlspecialchars($row['cognome']); ?></h3>
+                            <p><strong>Professione:</strong> <?php echo htmlspecialchars($row['professione']); ?></p>
+                            <p><strong>Città:</strong> <?php echo htmlspecialchars($row['citta']); ?></p>
+                            <p><strong>Azienda:</strong> <?php echo htmlspecialchars($row['nome_azienda']); ?></p>
+                            <p><strong>Email:</strong> <?php echo htmlspecialchars($row['email']); ?></p>
+                            <p><strong>Indirizzo:</strong> <?php echo htmlspecialchars($row['via']); ?></p>
+                        </div>
 
-            <!-- Sezione commenti -->
-            <section class="search-comment-section">
+                        <!-- Sezione commenti -->
+                        <section class="search-comment-section">
                             <div class="search-comment-container">
                                 <form action="search.php" method="POST" class="comment-form">
                                     <input type="hidden" name="professionista_id" value="<?php echo $row['id']; ?>">
 
                                     <div class="star-rating">
-            <input type="radio" id="star1" name="rating" value="5"><label for="star1">★</label>
-            <input type="radio" id="star2" name="rating" value="4"><label for="star2">★</label>
-            <input type="radio" id="star3" name="rating" value="3"><label for="star3">★</label>
-            <input type="radio" id="star4" name="rating" value="2"><label for="star4">★</label>
-            <input type="radio" id="star5" name="rating" value="1"><label for="star5">★</label>
-        </div>
-    </div>
+                                        <input type="radio" id="star1" name="rating" value="5"><label for="star1">★</label>
+                                        <input type="radio" id="star2" name="rating" value="4"><label for="star2">★</label>
+                                        <input type="radio" id="star3" name="rating" value="3"><label for="star3">★</label>
+                                        <input type="radio" id="star4" name="rating" value="2"><label for="star4">★</label>
+                                        <input type="radio" id="star5" name="rating" value="1"><label for="star5">★</label>
+                                    </div>
+                            </div>
 
-    <!-- Bottone per inviare la valutazione -->
-    <button type="submit" class="btn-submit-comment">Invia Valutazione</button>
-</form>
-                </div>
-            </section>
-        </div>
-        <?php endwhile; ?>
+                            <!-- Bottone per inviare la valutazione -->
+                            <button type="submit" class="btn-submit-comment">Invia Valutazione</button>
+                            </form>
+                    </div>
+    </section>
+    </div>
+<?php endwhile; ?>
 <?php else: ?>
     <?php if ($no_results_message): ?>
         <p class="no-result">Non ci sono risultati per la tua ricerca.</p>
@@ -203,9 +214,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET' && !$valutazione_inviata) {
 <?php endif; ?>
 
 
-        </div>
-    </section>
+</div>
+</section>
 </body>
+
 </html>
 
 
@@ -216,15 +228,15 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET' && !$valutazione_inviata) {
     <div class="footer-container">
         <!-- Links principali -->
         <div class="footer-links">
-        <ul>
-                    <li><a href="#">Privacy</a></li>
-                    <li><a href="#">Informativa Cookie</a></li>
-                    <li><a href="#">Termini e Condizioni</a></li>
-                    <li><a href="#">Contatti</a></li>
-                    <li><a href="#">Help & Contatti</a></li>
-                    <li><a href="#">Diventa Professionista</a></li>
-                    <li><a href="#">Domande Frequenti (FAQ)</a></li>
-                </ul>
+            <ul>
+                <li><a href="#">Privacy</a></li>
+                <li><a href="#">Informativa Cookie</a></li>
+                <li><a href="#">Termini e Condizioni</a></li>
+                <li><a href="#">Contatti</a></li>
+                <li><a href="#">Help & Contatti</a></li>
+                <li><a href="#">Diventa Professionista</a></li>
+                <li><a href="#">Domande Frequenti (FAQ)</a></li>
+            </ul>
         </div>
 
         <div class="footer-social">
