@@ -16,6 +16,7 @@ body {
     margin: 0;
 }
 
+
 /* Barra di navigazione */
 .navbar {
     display: flex;
@@ -98,6 +99,8 @@ body {
     }
 }
 
+
+
 .stelle-valutazione {
     display: flex;
     justify-content: center;
@@ -109,6 +112,8 @@ body {
     color: #FFD700;  /* Colore giallo per tutte le stelle */
     cursor: pointer;
 }
+
+
 
 
 /* Barra di ricerca orizzontale */
@@ -136,11 +141,6 @@ body {
     max-width: 100%;  /* Aggiunto per fare in modo che l'input non superi la larghezza del contenitore */
 }
 
-.input-group label {
-    font-weight: bold; /* Aggiunto per rendere i label in grassetto */
-    color: #333;  /* Colore più scuro per il testo */
-}
-
 .btn-search {
     background-color: #007bff;
     color: white;
@@ -161,6 +161,14 @@ body {
         flex-direction: column;  /* Riorganizza gli elementi in una colonna su schermi piccoli */
         gap: 15px;               /* Aggiungi spazio maggiore tra gli elementi */
     }
+    .search-section {
+        text-align: center;  /* Assicura che il testo sia centrato anche su schermi piccoli */
+    }
+
+    .subheading {
+        margin-top: 10px; /* Aggiungi margine superiore per spostarla sotto il titolo */
+        font-size: 14px;  /* Puoi aggiungere un font-size più piccolo per schermi piccoli, se desideri */
+    }
 
     .input-group input {
         width: 100%;  /* Imposta la larghezza dell'input al 100% */
@@ -174,12 +182,6 @@ body {
     /* Spostare la scritta sotto il titolo "Trova il tuo professionista" su schermi più piccoli */
     .subheading {
         margin-top: 10px;  /* Aggiungi margine superiore per spostarla sotto il titolo */
-        font-size: 14px;  /* Riduci leggermente la dimensione del testo */
-    }
-
-    /* Cambia il margine del titolo e del paragrafo su schermi piccoli */
-    .section-title {
-        margin-bottom: 10px;
     }
 }
 
