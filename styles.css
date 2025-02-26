@@ -132,6 +132,16 @@ body {
     flex-wrap: wrap; /* Permette la rottura su più righe su schermi piccoli */
 }
 
+/* Etichetta per gli input (aggiunta grassetto e maggiore visibilità) */
+.input-group label {
+    font-weight: 600;          /* Rende il testo più marcato */
+    font-size: 18px;           /* Aumenta la dimensione del font */
+    color: #333;               /* Colore scuro per un buon contrasto */
+    text-align: left;          /* Allinea a sinistra le etichette */
+    width: 100%;               /* Fa sì che l'etichetta occupi tutta la larghezza disponibile */
+    margin-bottom: 5px;        /* Aggiunge spazio tra l'etichetta e l'input */
+}
+
 .input-group input {
     padding: 10px;
     font-size: 16px;
@@ -186,6 +196,8 @@ body {
         font-size: 14px;  /* Puoi aggiungere un font-size più piccolo per schermi piccoli, se desideri */
     }
 }
+
+
 
 
 
@@ -618,7 +630,6 @@ footer {
 }
 
 .footer-links, .footer-social {
-    display: flex;
     flex-wrap: wrap;
     justify-content: center;
     margin-bottom: 5px; /* Ridotto margine tra social e link */
@@ -683,5 +694,21 @@ footer {
 
     .search-bar button {
         width: 100%;
+    }
+    .footer-links ul {
+        display: flex;
+        flex-direction: column; /* Imposta la direzione verticale */
+        align-items: center; /* Centra gli elementi */
+        padding: 0;
+        margin: 0;
+        list-style: none;
+    }
+
+    .footer-links li {
+        margin: 8px 0; /* Aggiungi un po' di margine verticale tra gli elementi */
+    }
+
+    .footer-links a {
+        font-size: 16px; /* Aumenta leggermente la dimensione del font per una migliore leggibilità */
     }
 }
