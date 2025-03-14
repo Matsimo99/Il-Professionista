@@ -101,17 +101,69 @@ body {
 
 
 
+/* Sezione per la valutazione delle stelle */
 .stelle-valutazione {
     display: flex;
     justify-content: center;
     gap: 5px; /* Spazio tra le stelle */
+    flex-wrap: wrap;  /* Permette alle stelle di andare a capo se necessario */
 }
 
+/* Modifica la dimensione delle stelle per i dispositivi mobili */
 .stelle-valutazione label {
     font-size: 30px;
     color: #FFD700;  /* Colore giallo per tutte le stelle */
     cursor: pointer;
 }
+
+@media (max-width: 768px) {
+    /* Per schermi più piccoli, ridurre la dimensione delle stelle */
+    .stelle-valutazione label {
+        font-size: 25px;  /* Riduci la dimensione delle stelle */
+    }
+
+    /* Adatta la larghezza del contenitore della valutazione */
+    .search-comment-section {
+        width: 100%;  /* Imposta la larghezza al 100% per sfruttare lo spazio disponibile */
+        padding: 10px;  /* Riduci il padding per maggiore spazio */
+    }
+
+    /* Ridurre la dimensione del bottone su dispositivi mobili */
+    .btn-submit-comment {
+        padding: 8px 16px;  /* Ridurre il padding per un bottone più compatto */
+    }
+
+    /* Stile per il contenitore dei risultati (distanza tra gli elementi) */
+    .result-card {
+        flex-direction: column;  /* Metti le informazioni in una colonna per una migliore visualizzazione su schermo piccolo */
+        align-items: flex-start;  /* Allinea gli elementi a sinistra */
+        gap: 10px;  /* Aggiungi un po' di spazio tra gli elementi */
+    }
+
+    .img-container {
+        margin-bottom: 10px;  /* Aggiungi spazio sotto l'immagine */
+    }
+    
+    .img-professionista {
+        width: 60px;   /* Riduci la dimensione dell'immagine */
+        height: 60px;
+    }
+    
+    .details-container h3 {
+        font-size: 20px;  /* Riduci la dimensione del nome */
+    }
+
+    /* Ridurre la dimensione del testo nei dettagli */
+    .details-container p {
+        font-size: 14px;
+    }
+
+    /* Centra i contenuti della card di ricerca per dispositivi più piccoli */
+    .search-results {
+        padding: 15px;  /* Aggiungi padding per una spaziatura migliore */
+    }
+}
+
 
 
 
