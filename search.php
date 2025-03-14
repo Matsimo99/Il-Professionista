@@ -1,7 +1,8 @@
 <?php
-// Inizializzazione delle variabili
-$valutazione_inviata = false; // Variabile per verificare se la valutazione è stata inviata
-$valutazione_successo = ''; // Messaggio di successo
+// Inizializzazione delle variabili in modo sicuro
+$professione = $_GET['professione'] ?? '';  // Impostiamo un valore vuoto se non è settato
+$citta = $_GET['citta'] ?? '';  // Impostiamo un valore vuoto se non è settato
+$no_results_message = false;  // Impostiamo la variabile a false inizialmente
 
 // Parametri di connessione al database PostgreSQL di Render
 $host = 'dpg-curf2orv2p9s73ahh69g-a.oregon-postgres.render.com';
@@ -46,44 +47,35 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['rating']) && isset($_P
 // Gestione della ricerca solo se non è stato inviato un commento
 if ($_SERVER['REQUEST_METHOD'] == 'GET' && !$valutazione_inviata) {
     // Variabili per la ricerca
-    // Variabili per la ricerca
-    $professione = $_GET['professione'] ?? '';
-    $citta = $_GET['citta'] ?? '';
-    $no_results_message = false;  // Variabile per determinare se mostrare il messaggio "Non ci sono risultati"
+    if (empty($professione) && empty($citta)) {
+        $errors[] = "Per favore, compila almeno uno dei campi (Professione o Città).";
+    }
 
-    // Gestione della ricerca solo se non è stato inviato un commento
-    if ($_SERVER['REQUEST_METHOD'] == 'GET' && !$valutazione_inviata) {
-        // Variabili per la ricerca
-        if (empty($professione) && empty($citta)) {
-            $errors[] = "Per favore, compila almeno uno dei campi (Professione o Città).";
+    // Esegui la ricerca solo se non ci sono errori
+    if (empty($errors)) {
+        $query = "SELECT * FROM persone WHERE 1=1";
+        $params = [];
+
+        if ($professione) {
+            $query .= " AND professione ILIKE $1";
+            $params[] = '%' . $professione . '%';
         }
 
-        // Esegui la ricerca solo se non ci sono errori
-        if (empty($errors)) {
-            $query = "SELECT * FROM persone WHERE 1=1";
-            $params = [];
+        if ($citta) {
+            $query .= " AND citta ILIKE $" . (count($params) + 1);
+            $params[] = '%' . $citta . '%';
+        }
 
-            if ($professione) {
-                $query .= " AND professione ILIKE $1";
-                $params[] = '%' . $professione . '%';
-            }
+        // Esegui la query
+        $result = pg_query_params($conn, $query, $params);
+        if (!$result) {
+            echo "Errore nella query: " . pg_last_error($conn);
+            exit;
+        }
 
-            if ($citta) {
-                $query .= " AND citta ILIKE $" . (count($params) + 1);
-                $params[] = '%' . $citta . '%';
-            }
-
-            // Esegui la query
-            $result = pg_query_params($conn, $query, $params);
-            if (!$result) {
-                echo "Errore nella query: " . pg_last_error($conn);
-                exit;
-            }
-
-            // Se non ci sono risultati, imposta il messaggio per la ricerca
-            if (pg_num_rows($result) == 0) {
-                $no_results_message = true;
-            }
+        // Se non ci sono risultati, imposta il messaggio per la ricerca
+        if (pg_num_rows($result) == 0) {
+            $no_results_message = true;
         }
     }
 }
@@ -212,8 +204,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET' && !$valutazione_inviata) {
         <p class="no-result">Non ci sono risultati per la tua ricerca.</p>
     <?php endif; ?>
 <?php endif; ?>
-
-
 </div>
 </section>
 </body>
