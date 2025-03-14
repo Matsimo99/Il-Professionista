@@ -196,6 +196,7 @@ if (strlen($professione) > 1 || strlen($citta) > 1) {
                             <p><strong>Città:</strong> <?php echo htmlspecialchars($row['citta']); ?></p>
                             <p><strong>Azienda:</strong> <?php echo htmlspecialchars($row['nome_azienda']); ?></p>
                             <p><strong>Email:</strong> <?php echo htmlspecialchars($row['email']); ?></p>
+                            <p><strong>Telefono:</strong> <?php echo htmlspecialchars($row['recapito_telefonico']); ?></p>
                             <p><strong>Indirizzo:</strong> <?php echo htmlspecialchars($row['via']); ?></p>
                         </div>
 
