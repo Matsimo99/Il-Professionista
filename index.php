@@ -89,13 +89,13 @@ if (!$result_professionisti) {
         <?php
         // Recuperiamo i professionisti con valutazioni
         $query_professionisti = "
-    SELECT p.id, p.nome, p.cognome, p.professione  -- Aggiungi la professione
-    FROM persone p
-    WHERE EXISTS (
-        SELECT 1 FROM valutazioni v WHERE v.professionista_id = p.id
-    )
-    ORDER BY p.id DESC
-    LIMIT 6;
+        SELECT p.id, p.nome, p.cognome, p.professione  -- Aggiungi la professione
+        FROM persone p
+        WHERE EXISTS (
+            SELECT 1 FROM valutazioni v WHERE v.professionista_id = p.id
+        )
+        ORDER BY p.id DESC
+        LIMIT 6;
     ";
         $result_professionisti = pg_query($conn, $query_professionisti);
 
@@ -106,9 +106,9 @@ if (!$result_professionisti) {
 
             // Query per recuperare la media delle valutazioni
             $query_valutazioni_media = "
-        SELECT AVG(v.valutazione) AS media_valutazione
-        FROM valutazioni v
-        WHERE v.professionista_id = $1
+            SELECT AVG(v.valutazione) AS media_valutazione
+            FROM valutazioni v
+            WHERE v.professionista_id = $1
         ";
             $result_valutazioni_media = pg_query_params($conn, $query_valutazioni_media, array($professionista_id));
 
@@ -144,31 +144,12 @@ if (!$result_professionisti) {
                     }
                 }
                 echo "</div>"; // Fine delle stelle
-
-                // Query per recuperare tutte le recensioni
-                $query_valutazioni = "
-            SELECT v.punteggio, v.data
-            FROM valutazioni v
-            WHERE v.professionista_id = $1
-            ORDER BY v.data DESC
-            ";
-                $result_valutazioni = pg_query_params($conn, $query_valutazioni, array($professionista_id));
-
-                // Visualizza le recensioni singole
-                if ($result_valutazioni && pg_num_rows($result_valutazioni) > 0) {
-                    echo "<h5>Valutazioni:</h5>";
-                    while ($valutazione = pg_fetch_assoc($result_valutazioni)) {
-                        echo "<div class='search-comment-box'>";
-                        echo "<p><strong>Valutazione:</strong> " . htmlspecialchars($valutazione['punteggio']) . "/5</p>";
-                        echo "<p><em>Data: " . htmlspecialchars($valutazione['data']) . "</em></p>";
-                        echo "</div>";
-                    }
-                }
                 echo "</div>"; // Fine del professionista
             }
         }
         ?>
     </section>
+
 
 
 
