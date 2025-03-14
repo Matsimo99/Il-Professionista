@@ -44,7 +44,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['rating']) && isset($_P
     }
 }
 
-// Gestione della ricerca solo se non è stato inviato un commento
+// Gestione della ricerca
 if ($_SERVER['REQUEST_METHOD'] == 'GET' && !$valutazione_inviata) {
     // Rimuovi gli spazi iniziali e finali dai valori di ricerca
     $professione = trim($_GET['professione'] ?? '');
@@ -56,19 +56,31 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET' && !$valutazione_inviata) {
         $errors[] = "Per favore, compila almeno uno dei campi (Professione o Città).";
     }
 
+    // Gestione della ricerca solo se non è stato inviato un commento
+if (empty($professione) && empty($citta)) {
+    $errors[] = "Per favore, compila almeno uno dei campi (Professione o Città).";
+}
+
+// Verifica che la ricerca non sia troppo generica (es. una sola lettera)
+if (strlen($professione) > 1 || strlen($citta) > 1) {
+
     // Esegui la ricerca solo se non ci sono errori
     if (empty($errors)) {
         $query = "SELECT * FROM persone WHERE 1=1";
         $params = [];
 
+        // Se la professione è stata inserita, cerca con il pattern ILIKE
         if ($professione) {
             $query .= " AND professione ILIKE $1";
-            $params[] =  $professione ;
+            // Aggiungi % per permettere la ricerca parziale
+            $params[] = "%" . $professione . "%";
         }
 
+        // Se la città è stata inserita, cerca con il pattern ILIKE
         if ($citta) {
             $query .= " AND citta ILIKE $" . (count($params) + 1);
-            $params[] =  $citta ;
+            // Aggiungi % per permettere la ricerca parziale
+            $params[] = "%" . $citta . "%";
         }
 
         // Esegui la query
@@ -83,6 +95,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET' && !$valutazione_inviata) {
             $no_results_message = true;
         }
     }
+} else {
+    $errors[] = "La ricerca deve essere composta da almeno due caratteri.";
+}
+
 }
 
 ?>
