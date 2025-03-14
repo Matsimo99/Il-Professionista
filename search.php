@@ -46,7 +46,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['rating']) && isset($_P
 
 // Gestione della ricerca solo se non è stato inviato un commento
 if ($_SERVER['REQUEST_METHOD'] == 'GET' && !$valutazione_inviata) {
-    // Variabili per la ricerca
+    // Rimuovi gli spazi iniziali e finali dai valori di ricerca
+    $professione = trim($_GET['professione'] ?? '');
+    $citta = trim($_GET['citta'] ?? '');
+    $no_results_message = false;  // Variabile per determinare se mostrare il messaggio "Non ci sono risultati"
+
+    // Gestione della ricerca solo se non è stato inviato un commento
     if (empty($professione) && empty($citta)) {
         $errors[] = "Per favore, compila almeno uno dei campi (Professione o Città).";
     }
@@ -79,6 +84,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET' && !$valutazione_inviata) {
         }
     }
 }
+
 ?>
 
 <!DOCTYPE html>
