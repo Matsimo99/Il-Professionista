@@ -63,12 +63,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET' && !$valutazione_inviata) {
 
         if ($professione) {
             $query .= " AND professione ILIKE $1";
-            $params[] = '%' . $professione . '%';
+            $params[] =  $professione ;
         }
 
         if ($citta) {
             $query .= " AND citta ILIKE $" . (count($params) + 1);
-            $params[] = '%' . $citta . '%';
+            $params[] =  $citta ;
         }
 
         // Esegui la query
