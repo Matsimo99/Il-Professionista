@@ -195,6 +195,77 @@ body {
         margin-top: 10px;  /* Aggiungi margine superiore per spostarla sotto il titolo */
         font-size: 14px;  /* Puoi aggiungere un font-size più piccolo per schermi piccoli, se desideri */
     }
+    /* Nuove modifiche per migliorare la visualizzazione su mobile */
+    .search-comment-section {
+        width: 100%;  /* Rende la sezione commento a tutta larghezza */
+        margin-top: 10px; /* Riduci il margine in basso */
+        padding: 15px; /* Migliora la spaziatura interna */
+    }
+
+    /* Ridurre la dimensione delle stelle per dispositivi mobili */
+    .star-rating {
+        font-size: 25px;  /* Abbassa la dimensione delle stelle su schermi piccoli */
+    }
+
+    .star-rating label {
+        font-size: 25px; /* Modifica la dimensione delle stelle per il mobile */
+    }
+
+    /* Bottone di invio della valutazione */
+    .btn-submit-comment {
+        width: 100%;  /* Rende il bottone largo quanto il contenitore */
+        padding: 12px 0; /* Rende il bottone più alto per usabilità su mobile */
+        font-size: 16px; /* Impostazione font leggibile */
+    }
+
+    /* Rendi i dettagli più compatti e leggibili su schermi più piccoli */
+    .result-card {
+        flex-direction: column;  /* Organizza gli elementi verticalmente */
+        align-items: center;     /* Allinea tutti gli elementi al centro */
+    }
+
+    .img-container {
+        margin-bottom: 15px;  /* Spazio tra la foto e i dettagli */
+    }
+
+    .details-container {
+        align-items: center; /* Centra i dettagli del professionista */
+        text-align: center;   /* Aggiusta l'allineamento del testo */
+    }
+
+    /* Allineamento e dimensioni dell'email, indirizzo e altri testi */
+    .details-container p {
+        font-size: 16px;  /* Riduce la dimensione del testo per una migliore visualizzazione mobile */
+        line-height: 1.4; /* Migliora la leggibilità */
+        word-wrap: break-word; /* Permette di spezzare le righe per testi più lunghi */
+    }
+
+    /* Stile per la sezione dei commenti */
+    .search-comment-section .comment-form input {
+        font-size: 16px; /* Aggiusta la dimensione del font dell'input */
+        padding: 8px; /* Riduce la spaziatura interna dell'input */
+        width: 100%; /* Rende l'input largo quanto il contenitore */
+    }
+
+    /* Rende i risultati più compatti */
+    .result-card {
+        padding: 15px; /* Riduce il padding dei risultati per dispositivi mobili */
+    }
+
+    /* Foto del professionista */
+    .img-professionista {
+        width: 60px; /* Riduce la dimensione dell'immagine */
+        height: 60px; /* Riduce la dimensione dell'immagine */
+    }
+
+    /* Modifica la dimensione del testo per il nome e la professione */
+    .details-container h3 {
+        font-size: 18px; /* Riduce la dimensione del nome */
+    }
+
+    .details-container p {
+        font-size: 14px; /* Riduce la dimensione delle informazioni di contatto */
+    }
 }
 
 
