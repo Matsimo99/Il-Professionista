@@ -124,9 +124,10 @@ body {
 
     /* Adatta la larghezza del contenitore della valutazione */
     .search-comment-section {
-        width: 100%;  /* Imposta la larghezza al 100% per sfruttare lo spazio disponibile */
-        padding: 10px;  /* Riduci il padding per maggiore spazio */
+        width: 100%;  /* Usa il 100% della larghezza disponibile */
+        max-width: 600px; /* Imposta una larghezza massima se vuoi evitare che si allarghi troppo */
     }
+    
 
     /* Ridurre la dimensione del bottone su dispositivi mobili */
     .btn-submit-comment {
@@ -161,6 +162,22 @@ body {
     /* Centra i contenuti della card di ricerca per dispositivi più piccoli */
     .search-results {
         padding: 15px;  /* Aggiungi padding per una spaziatura migliore */
+    }
+       /* Aggiungi qui le regole per il secondo blocco di codice, come il bottone di ricerca, il layout dei risultati, etc. */
+       .search-form {
+        flex-direction: column;  /* Riorganizza gli elementi in una colonna su schermi piccoli */
+    }
+
+    .btn-search {
+        width: 100%;  /* Fai in modo che il bottone occupi tutta la larghezza disponibile */
+    }
+
+    .result-card {
+        flex-direction: column;  /* Disporre le card dei risultati in una colonna su schermi piccoli */
+    }
+
+    .img-container {
+        margin-bottom: 10px;  /* Aggiungere margine sotto l'immagine */
     }
 }
 
