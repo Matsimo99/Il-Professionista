@@ -150,11 +150,11 @@ if (strlen($professione) > 1 || strlen($citta) > 1) {
             <form action="search.php" method="get" class="search-form">
                 <div class="input-group">
                     <label for="professione">Professione:</label>
-                    <input type="text" id="professione" name="professione" value="<?php echo htmlspecialchars($professione); ?>" placeholder="Es. Medico">
+                    <input type="text" id="professione" name="professione" value="<?php echo htmlspecialchars($professione); ?>" placeholder="">
                 </div>
                 <div class="input-group">
                     <label for="citta">Città:</label>
-                    <input type="text" id="citta" name="citta" value="<?php echo htmlspecialchars($citta); ?>" placeholder="Es. Roma">
+                    <input type="text" id="citta" name="citta" value="<?php echo htmlspecialchars($citta); ?>" placeholder="">
                 </div>
                 <button type="submit" class="btn-search">Cerca</button>
             </form>

@@ -74,11 +74,11 @@ if (!$result_professionisti) {
             <form action="search.php" method="get" class="search-form" onsubmit="return validateForm()">
                 <div class="input-group">
                     <label for="professione">Professione:</label>
-                    <input type="text" id="professione" name="professione" placeholder="Es. Medico">
+                    <input type="text" id="professione" name="professione" placeholder="">
                 </div>
                 <div class="input-group">
                     <label for="citta">Città:</label>
-                    <input type="text" id="citta" name="citta" placeholder="Es. Roma">
+                    <input type="text" id="citta" name="citta" placeholder="">
                 </div>
                 <button type="submit" class="btn-search">Cerca</button>
             </form>
