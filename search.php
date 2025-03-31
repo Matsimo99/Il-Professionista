@@ -159,7 +159,7 @@ if (strlen($professione) > 1 || strlen($citta) > 1) {
                 <?php
                 $professionista_id = $row['id'];
                 // Query per ottenere i social media del professionista
-                $query_social = "SELECT * FROM social_media WHERE id_professionista = $1";
+                $query_social = "SELECT * FROM social_media WHERE id = $1";
                 $result_social = pg_query_params($conn, $query_social, array($professionista_id));
                 $social_media = pg_fetch_assoc($result_social);
                 ?>
