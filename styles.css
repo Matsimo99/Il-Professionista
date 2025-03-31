@@ -358,8 +358,7 @@ body {
 
 
 
-
-/* Unifica le due definizioni di .search-comment-section */
+/* Sezione di ricerca dei commenti */
 .search-comment-section {
     margin-top: 0px;
     padding: 20px;
@@ -374,17 +373,32 @@ body {
     padding: 10px;  /* Aggiungi più padding per spazio interno */
 }
 
-.professione {
-    font-size: 18px;
-    color: #555;
-    margin-top: 10px;
-    font-style: italic;
+/* Aggiunto per la gestione dei social media sulla destra */
+.social-icons {
+    display: flex;
+    gap: 10px;
+    justify-content: flex-end; /* Allinea gli icone sulla destra */
+    margin-top: 10px;  /* Distanza tra la sezione di valutazione e le icone */
 }
 
+/* Icone dei social media */
+.social-icons {
+    display: flex;
+    justify-content: flex-start;  /* Mantieni le icone allineate a sinistra */
+    gap: 15px;  /* Distanza tra le icone */
+    margin-top: 20px;  /* Distanza tra la sezione di valutazione e le icone */
+    margin-left: 10px;  /* Aggiungi un piccolo margine a sinistra per spostare le icone verso destra */
+}
 
+.social-icons img {
+    width: 30px;
+    height: 30px;
+    transition: transform 0.3s ease;  /* Aggiunge un effetto di transizione */
+}
 
-
-
+.social-icons img:hover {
+    transform: scale(1.1); /* Aumenta la dimensione al passaggio del mouse */
+}
 
 /* Stile per il messaggio di successo */
 .success-message {
@@ -409,7 +423,6 @@ body {
 .success-message {
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
 }
-
 
 /* Risultati della ricerca */
 .result-card {
@@ -493,7 +506,6 @@ body {
     background-color: #0056b3;  /* Cambia il colore di sfondo al passaggio del mouse */
 }
 
-
 .no-result {
     font-size: 16px;
     color: #ff0000; /* Rosso per evidenziare il messaggio */
@@ -505,13 +517,11 @@ body {
     margin-top: 20px;
 }
 
-
-
-
 /* Hover sul bottone */
 .search-comment-section button:hover {
     background-color: #45a049;
 }
+
 
 
 /* Sezione Lavora con Noi */

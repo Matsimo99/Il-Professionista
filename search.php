@@ -105,7 +105,6 @@ if (strlen($professione) > 1 || strlen($citta) > 1) {
 
 <!DOCTYPE html>
 <html lang="it">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -113,9 +112,7 @@ if (strlen($professione) > 1 || strlen($citta) > 1) {
     <title>Risultati Ricerca Professionisti</title>
     <link rel="stylesheet" href="styles.css">
 </head>
-
 <body>
-    <!-- Barra di navigazione fissa -->
     <header class="navbar">
         <div class="logo">
             <img src="logo1.jpg" alt="Logo Azienda" width="150" height="150">
@@ -127,21 +124,9 @@ if (strlen($professione) > 1 || strlen($citta) > 1) {
                 <li><a href="trattamento_dati.php">Trattamento dei Dati</a></li>
                 <li><a href="lavora_con_noi.php">Lavora con noi</a></li>
             </ul>
-            <div class="menu-toggle" onclick="toggleMenu()">
-                <span class="bar"></span>
-                <span class="bar"></span>
-                <span class="bar"></span>
-            </div>
         </nav>
     </header>
-    <script>
-        function toggleMenu() {
-            const menu = document.querySelector('.navbar-links');
-            menu.classList.toggle('active');
-        }
-    </script>
 
-    <!-- Sezione di ricerca -->
     <section class="search-section">
         <div class="search-container">
             <p class="subheading">
@@ -161,76 +146,101 @@ if (strlen($professione) > 1 || strlen($citta) > 1) {
         </div>
     </section>
 
-    <!-- Sezione per i risultati della ricerca -->
     <section class="results-section">
-        <div class="search-results">
-            <!-- Messaggio di valutazione inviata con successo -->
-            <?php if ($valutazione_inviata): ?>
-                <div class="success-message">
-                    <p><?php echo $valutazione_successo; ?></p>
-                </div>
-            <?php endif; ?>
+    <div class="search-results">
+        <?php if ($valutazione_inviata): ?>
+            <div class="success-message">
+                <p><?php echo $valutazione_successo; ?></p>
+            </div>
+        <?php endif; ?>
 
-            <!-- Visualizzazione dei risultati della ricerca -->
-            <?php if (isset($result) && pg_num_rows($result) > 0): ?>
-                <?php while ($row = pg_fetch_assoc($result)): ?>
-                    <div class="result-card">
-                        <!-- Foto del professionista -->
+        <?php if (isset($result) && pg_num_rows($result) > 0): ?>
+            <?php while ($row = pg_fetch_assoc($result)): ?>
+                <?php
+                $professionista_id = $row['id'];
+                // Query per ottenere i social media del professionista
+                $query_social = "SELECT * FROM social_media WHERE id_professionista = $1";
+                $result_social = pg_query_params($conn, $query_social, array($professionista_id));
+                $social_media = pg_fetch_assoc($result_social);
+                ?>
+                <div class="result-card">
+                    <div class="img-container">
                         <?php
                         $image_path = "profili/{$row['id']}.jpg";
                         if (file_exists($image_path)) {
-                            echo "<div class='img-container'>";
                             echo "<img src='$image_path' alt='Immagine di {$row['nome']} {$row['cognome']}' class='img-professionista'>";
-                            echo "</div>";
                         } else {
-                            echo "<div class='img-container'>";
                             echo "<img src='profili/default.jpg' alt='Immagine di default' class='img-professionista'>";
-                            echo "</div>";
                         }
                         ?>
+                    </div>
 
-                        <!-- Dettagli professionista -->
-                        <div class="details-container">
-                            <h3><?php echo htmlspecialchars($row['nome']) . ' ' . htmlspecialchars($row['cognome']); ?></h3>
-                            <p><strong>Professione:</strong> <?php echo htmlspecialchars($row['professione']); ?></p>
-                            <p><strong>Città:</strong> <?php echo htmlspecialchars($row['citta']); ?></p>
-                            <p><strong>Azienda:</strong> <?php echo htmlspecialchars($row['nome_azienda']); ?></p>
-                            <p><strong>Email:</strong> <?php echo htmlspecialchars($row['email']); ?></p>
-                            <p><strong>Telefono:</strong> <?php echo htmlspecialchars($row['recapito_telefonico']); ?></p>
-                            <p><strong>Indirizzo:</strong> <?php echo htmlspecialchars($row['via']); ?></p>
+                    <div class="details-container">
+                        <h3><?php echo htmlspecialchars($row['nome']) . ' ' . htmlspecialchars($row['cognome']); ?></h3>
+                        <p><strong>Professione:</strong> <?php echo htmlspecialchars($row['professione']); ?></p>
+                        <p><strong>Città:</strong> <?php echo htmlspecialchars($row['citta']); ?></p>
+                        <p><strong>Azienda:</strong> <?php echo htmlspecialchars($row['nome_azienda']); ?></p>
+                        <p><strong>Email:</strong> <?php echo htmlspecialchars($row['email']); ?></p>
+                        <p><strong>Telefono:</strong> <?php echo htmlspecialchars($row['recapito_telefonico']); ?></p>
+                        <p><strong>Indirizzo:</strong> <?php echo htmlspecialchars($row['via']); ?></p>
+                    </div>
+
+                    <section class="search-comment-section">
+                        <div class="star-rating">
+                            <input type="radio" id="star1" name="rating" value="5"><label for="star1">★</label>
+                            <input type="radio" id="star2" name="rating" value="4"><label for="star2">★</label>
+                            <input type="radio" id="star3" name="rating" value="3"><label for="star3">★</label>
+                            <input type="radio" id="star4" name="rating" value="2"><label for="star4">★</label>
+                            <input type="radio" id="star5" name="rating" value="1"><label for="star5">★</label>
                         </div>
 
-                        <!-- Sezione commenti -->
-                        <section class="search-comment-section">
-                            <div class="search-comment-container">
-                                <form action="search.php" method="POST" class="comment-form">
-                                    <input type="hidden" name="professionista_id" value="<?php echo $row['id']; ?>">
+                        <button type="submit" class="btn-submit-comment">Invia Valutazione</button>
+                    </section>
 
-                                    <div class="star-rating">
-                                        <input type="radio" id="star1" name="rating" value="5"><label for="star1">★</label>
-                                        <input type="radio" id="star2" name="rating" value="4"><label for="star2">★</label>
-                                        <input type="radio" id="star3" name="rating" value="3"><label for="star3">★</label>
-                                        <input type="radio" id="star4" name="rating" value="2"><label for="star4">★</label>
-                                        <input type="radio" id="star5" name="rating" value="1"><label for="star5">★</label>
-                                    </div>
-                            </div>
+                    <!-- Sezione Social Media -->
+                    <?php if ($social_media && ( !empty($social_media['facebook']) || !empty($social_media['instagram']) || !empty($social_media['twitter']) || !empty($social_media['linkedin']) || !empty($social_media['youtube']) )): ?>
+                        <div class="social-icons">
+                            <?php if (!empty($social_media['instagram'])): ?>
+                                <a href="<?php echo htmlspecialchars($social_media['instagram']); ?>" target="_blank">
+                                    <img src="in.webp" alt="Instagram" style="width: 30px; height: 30px;">
+                                </a>
+                            <?php endif; ?>
 
-                            <!-- Bottone per inviare la valutazione -->
-                            <button type="submit" class="btn-submit-comment">Invia Valutazione</button>
-                            </form>
-                    </div>
-    </section>
+                            <?php if (!empty($social_media['facebook'])): ?>
+                                <a href="<?php echo htmlspecialchars($social_media['facebook']); ?>" target="_blank">
+                                    <img src="fb.png" alt="Facebook" style="width: 30px; height: 30px;">
+                                </a>
+                            <?php endif; ?>
+
+                            <?php if (!empty($social_media['twitter'])): ?>
+                                <a href="<?php echo htmlspecialchars($social_media['twitter']); ?>" target="_blank">
+                                    <img src="twitter.png" alt="Twitter" style="width: 30px; height: 30px;">
+                                </a>
+                            <?php endif; ?>
+
+                            <?php if (!empty($social_media['linkedin'])): ?>
+                                <a href="<?php echo htmlspecialchars($social_media['linkedin']); ?>" target="_blank">
+                                    <img src="linkedin.png" alt="LinkedIn" style="width: 30px; height: 30px;">
+                                </a>
+                            <?php endif; ?>
+
+                            <?php if (!empty($social_media['youtube'])): ?>
+                                <a href="<?php echo htmlspecialchars($social_media['youtube']); ?>" target="_blank">
+                                    <img src="youtube.png" alt="YouTube" style="width: 30px; height: 30px;">
+                                </a>
+                            <?php endif; ?>
+                        </div>
+                    <?php endif; ?>
+                </div>
+            <?php endwhile; ?>
+        <?php else: ?>
+            <?php if ($no_results_message): ?>
+                <p class="no-result">Non ci sono risultati per la tua ricerca.</p>
+            <?php endif; ?>
+        <?php endif; ?>
     </div>
-<?php endwhile; ?>
-<?php else: ?>
-    <?php if ($no_results_message): ?>
-        <p class="no-result">Non ci sono risultati per la tua ricerca.</p>
-    <?php endif; ?>
-<?php endif; ?>
-</div>
 </section>
 </body>
-
 </html>
 
 
